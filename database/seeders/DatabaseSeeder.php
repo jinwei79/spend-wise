@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->withPersonalTeam()->create();
 
+        DB::Statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('users')->truncate();
 
         User::factory()->withPersonalTeam()->create([
@@ -28,5 +29,7 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'), // password
             'email_verified_at' => now(),
         ]);
+
+        $this->call(ExpenseCategorySeeder::class);
     }
 }
