@@ -8,6 +8,6 @@ class Create extends Component
 {
     public function render()
     {
-        return view('livewire.spending.category.create');
+        return view('livewire.expense.category.form')->layout('layouts.app');
     }
 }
