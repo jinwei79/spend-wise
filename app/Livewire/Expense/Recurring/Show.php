@@ -6,35 +6,41 @@ use App\Models\Expense;
 use App\Models\RecurringExpense;
 use Livewire\Component;
 
-class Create extends Component
+class Show extends Component
 {
     public $expense;
+    public $realExpense;
+    public $isEdit = false;
 
-    public function mount()
+    public function mount($id)
     {
-        $this->expense = [
-            'amount' => null,
-            'description' => null,
-            'start_date' => null,
-            'end_date' => null,
-            'frequency' => 'monthly',
-            'is_active' => true,
-        ];
+        $expense = RecurringExpense::find($id);
+        if (!$expense) {
+            return redirect()->route('recurring-expense.index')->with('error', 'Recurring expense not found.');
+        }
+
+        $this->expense = $expense->toArray();
+        $this->realExpense = $expense;
     }
 
     public function render()
     {
-        return view('livewire.expense.recurring.create')->layout('layouts.app');
+        return view('livewire.expense.recurring.show')->layout('layouts.app');
     }
 
-    public function save()
+    public function resetForm()
     {
+        $this->expense = $this->realExpense->toArray();
+        $this->isEdit = false;
+    }
 
+    public function update()
+    {
         $this->validate([
             'expense.amount' => 'required|numeric|min:0',
             'expense.description' => 'required|string|max:255',
             'expense.start_date' => 'required|date',
-            'expense.end_date' => 'required|date|after_or_equal:expense.start_date',
+            'expense.end_date' => 'nullable|date|after_or_equal:expense.start_date',
             'expense.frequency' => 'required|in:daily,weekly,monthly,yearly',
             'expense.is_active' => 'boolean',
         ], [
@@ -48,7 +54,6 @@ class Create extends Component
             'expense.description.max' => 'The description may not be greater than 255 characters.',
             'expense.start_date.required' => 'The start date is required.',
             'expense.start_date.date' => 'The start date is not a valid date.',
-            'expense.end_date.required' => 'The end date is required.',
             'expense.end_date.date' => 'The end date is not a valid date.',
             'expense.end_date.after_or_equal' => 'The end date must be after or equal to the start date.',
             'expense.frequency.required' => 'The frequency is required.',
@@ -56,12 +61,25 @@ class Create extends Component
             'expense.is_active.boolean' => 'The active status must be true or false.',
         ]);
 
-        $this->expense['user_id'] = auth()->id();
-        $this->expense['next_payment_date'] = $this->getNextPaymentDate($this->expense['frequency'], $this->expense['start_date']);
-        $this->expense['last_payment_date'] = $this->expense['end_date'];
-        RecurringExpense::create($this->expense);
+        $this->realExpense->update([
+            'amount' => $this->expense['amount'],
+            'description' => $this->expense['description'],
+            'start_date' => $this->expense['start_date'],
+            'end_date' => $this->expense['end_date'],
+            'frequency' => $this->expense['frequency'],
+            'is_active' => $this->expense['is_active'] ? 1 : 0,
+            'next_payment_date' => $this->getNextPaymentDate($this->expense['frequency'], $this->expense['start_date']),
+            'last_payment_date' => $this->expense['end_date'],
+        ]);
 
-        session()->flash('message', 'Recurring expense created successfully.');
+        session()->flash('message', 'Recurring expense updated successfully.');
+        return redirect()->route('recurring-expense.index');
+    }
+
+    public function deleteExpense()
+    {
+        $this->realExpense->delete();
+        session()->flash('message', 'Recurring expense deleted successfully.');
         return redirect()->route('recurring-expense.index');
     }
 

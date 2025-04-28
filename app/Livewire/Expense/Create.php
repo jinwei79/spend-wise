@@ -3,6 +3,7 @@
 namespace App\Livewire\Expense;
 
 use App\Models\Expense;
+use App\Models\RecurringExpense;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -11,52 +12,84 @@ class Create extends Component
 
     public $expenseCategories = [];
 
-    public $expense = [
-        'user_id' => null,
-        'expense_category_id' => null,
-        'amount' => null,
-        'description' => null,
-        'date' => null,
-        'payment_method' => null,
+    public $expenses = [
+        [
+            'amount' => null,
+            'description' => null,
+            'date' => null,
+            'is_recurring' => false,
+        ]
     ];
 
     public function mount()
     {
         $this->expenseCategories = \App\Models\ExpenseCategory::all();
+        $this->expenses[0]['date'] = date('Y-m-d');
     }
 
     public function render()
     {
-        return view('livewire.spending.create')->layout('layouts.app');
+        return view('livewire.expense.create')->layout('layouts.app');;
     }
 
     public function save()
     {
-        $this->validate([
-            'expense.expense_category_id' => 'required|exists:expense_categories,id',
-            'expense.amount' => 'required|numeric|min:0',
-            'expense.description' => 'nullable|string|max:255',
-            'expense.date' => 'required|date',
-            'expense.payment_method' => 'nullable|string|max:255',
-        ], [
-            'expense.expense_category_id.required' => 'The expense category is required.',
-            'expense.expense_category_id.exists' => 'The selected expense category is invalid.',
-            'expense.amount.required' => 'The amount is required.',
-            'expense.amount.numeric' => 'The amount must be a number.',
-            'expense.amount.min' => 'The amount must be at least 0.',
-            'expense.description.string' => 'The description must be a string.',
-            'expense.description.max' => 'The description may not be greater than 255 characters.',
-            'expense.date.required' => 'The date is required.',
-            'expense.date.date' => 'The date is not a valid date.',
-            'expense.payment_method.string' => 'The payment method must be a string.',
-            'expense.payment_method.max' => 'The payment method may not be greater than 255 characters.',
-        ]);
+        foreach ($this->expenses as $expense) {
+            $this->validate([
+                'expenses.*.amount' => 'required|numeric|min:0',
+                'expenses.*.description' => 'required|string|max:255',
+                'expenses.*.date' => 'required|date',
+            ], [
+                'expenses.*.description.required' => 'The description is required.',
+                'expenses.*.description.string' => 'The description must be a string.',
+                'expenses.*.description.max' => 'The description may not be greater than 255 characters.',
+                'expenses.*.amount.required' => 'The amount is required.',
+                'expenses.*.amount.numeric' => 'The amount must be a number.',
+                'expenses.*.amount.min' => 'The amount must be at least 0.',
+                'expenses.*.description.string' => 'The description must be a string.',
+                'expenses.*.description.max' => 'The description may not be greater than 255 characters.',
+                'expenses.*.date.required' => 'The date is required.',
+                'expenses.*.date.date' => 'The date is not a valid date.',
+            ]);
 
-        $this->expense['user_id'] = Auth::id();
-        Expense::create($this->expense);
+        }
 
+
+        foreach ($this->expenses as $expense) {
+            $expense['user_id'] = Auth::id();
+            Expense::create($expense);
+
+            if ($expense['is_recurring']) {
+                $recurringExpense = $expense;
+                $recurringExpense['description'] = $expense['description'];
+                $recurringExpense['amount'] = $expense['amount'];
+                $recurringExpense['frequency'] = 'monthly';
+                $recurringExpense['is_active'] = false;
+                $recurringExpense['start_date'] = $expense['date'];
+                $recurringExpense['end_date'] = date('Y-m-d', strtotime($expense['date'] . ' +1 year'));
+                $recurringExpense['next_payment_date'] = date('Y-m-d', strtotime($expense['date'] . ' +1 month'));
+                $recurringExpense['last_payment_date'] = date('Y-m-d', strtotime($expense['date'] . ' +1 year'));
+                $recurringExpense['user_id'] = Auth::id();
+                RecurringExpense::create($recurringExpense);
+            }
+        }
         session()->flash('message', 'Expense created successfully.');
+        return redirect()->route('expense.index');
+    }
 
-        return redirect()->route('expenses.index');
+    public function addExpenseRow()
+    {
+        $this->expenses[] = [
+            'amount' => null,
+            'description' => null,
+            'date' => date('Y-m-d'),
+            'is_recurring' => false,
+        ];
+    }
+
+    public function removeExpenseRow($index)
+    {
+        unset($this->expenses[$index]);
+        $this->expenses = array_values($this->expenses);
     }
 }

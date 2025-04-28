@@ -13,6 +13,7 @@ class Expense extends Model
         'description',
         'date',
         'payment_method',
+        'is_recurring',
     ];
 
     public function user()
