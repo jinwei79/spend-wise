@@ -13,8 +13,10 @@
         "laravel/framework": "^12.0",
         "laravel/jetstream": "^5.3",
         "laravel/sanctum": "^4.0",
+        "laravel/socialite": "^5.19",
         "laravel/tinker": "^2.10.1",
-        "livewire/livewire": "^3.0"
+        "livewire/livewire": "^3.0",
+        "omnia-digital/livewire-calendar": "^3.2"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

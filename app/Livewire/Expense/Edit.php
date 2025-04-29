@@ -8,6 +8,6 @@ class Edit extends Component
 {
     public function render()
     {
-        return view('livewire.spending.edit');
+        return view('livewire.expense.edit');
     }
 }
