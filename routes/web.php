@@ -3,7 +3,13 @@
 use App\Livewire\Expense\Create;
 use App\Livewire\Expense\Edit;
 use App\Livewire\Expense\Index;
+use App\Livewire\Report\ExpenseReport;
 use Illuminate\Support\Facades\Route;
+
+
+
+
+
 
 Route::get('/', function () {
     // return view('welcome');
@@ -28,5 +34,10 @@ Route::middleware([
         Route::get('', Index::class)->name('expense.index');
         Route::get('create', Create::class)->name('expense.create');
         Route::get('edit/{id}', Edit::class)->name('expense.edit');
+
+   
     });
+
+    Route::get('/report/expense', ExpenseReport::class)->name('report.expense');
 });
+
