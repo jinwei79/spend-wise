@@ -10,7 +10,7 @@ use Livewire\Component;
 class Create extends Component
 {
 
-    public $expenseCategories = [];
+    public $categories;
 
     public $expenses = [
         [
@@ -18,12 +18,13 @@ class Create extends Component
             'description' => null,
             'date' => null,
             'is_recurring' => false,
+            'expense_category_id' => null,
         ]
     ];
 
     public function mount()
     {
-        $this->expenseCategories = \App\Models\ExpenseCategory::all();
+        $this->categories = \App\Models\ExpenseCategory::all();
         $this->expenses[0]['date'] = date('Y-m-d');
     }
 
@@ -57,6 +58,7 @@ class Create extends Component
 
         foreach ($this->expenses as $expense) {
             $expense['user_id'] = Auth::id();
+            $expense['expense_category_id'] = $expense['expense_category_id'] ?? null;
             Expense::create($expense);
 
             if ($expense['is_recurring']) {
@@ -84,6 +86,7 @@ class Create extends Component
             'description' => null,
             'date' => date('Y-m-d'),
             'is_recurring' => false,
+            'expense_category_id' => null,
         ];
     }
 
@@ -91,5 +94,10 @@ class Create extends Component
     {
         unset($this->expenses[$index]);
         $this->expenses = array_values($this->expenses);
+    }
+
+    public function onChangeDescription($index)
+    {
+        $this->expenses[$index]['expense_category_id'] = $this->categories->random()->id;
     }
 }

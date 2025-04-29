@@ -9,5 +9,7 @@ class ExpenseCategory extends Model
     protected $fillable = [
         'name',
         'description',
+        'color_code',
+        'user_id'
     ];
 }

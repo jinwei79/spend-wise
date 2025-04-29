@@ -11,6 +11,7 @@ class Show extends Component
     public $expense;
     public $realExpense;
     public $isEdit = false;
+    public $categories;
 
     public function mount($id)
     {
@@ -22,6 +23,7 @@ class Show extends Component
         $this->expense = $expense->toArray();
         $this->expense['is_recurring'] = $expense->is_recurring ? true : false;
         $this->realExpense = $expense;
+        $this->categories = \App\Models\ExpenseCategory::all();
     }
 
     public function render()

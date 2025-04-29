@@ -44,7 +44,7 @@
                 <p><b class="mr-6">Category</b></p>
             </div>
             <div class="col-span-1 flex items-center justify-start">
-                <p>: {{ $expense->category ? $expense->category->name : 'ini category' }}</p>
+                <p>: {{ $expense->expenseCategory ? $expense->expenseCategory->name : 'ini category' }}</p>
             </div>
             <div class="col-span-3 flex items-center justify-end">
                 <div class="mt-2">

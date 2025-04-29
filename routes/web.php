@@ -6,6 +6,10 @@ use App\Livewire\Expense\Edit;
 use App\Livewire\Expense\Index;
 use App\Livewire\Expense\Show;
 use App\Livewire\Expense\ShowByDate;
+use App\Livewire\Expense\Category\Create as CategoryCreate;
+use App\Livewire\Expense\Category\Edit as CategoryEdit;
+use App\Livewire\Expense\Category\Index as CategoryIndex;
+use App\Livewire\Expense\Category\View as CategoryView;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -45,5 +49,12 @@ Route::middleware([
         Route::get('create', App\Livewire\Expense\Recurring\Create::class)->name('recurring-expense.create');
         Route::get('show/{id}', App\Livewire\Expense\Recurring\Show::class)->name('recurring-expense.show');
 
+    });
+
+    Route::prefix('category')->group(function () {
+        Route::get('', CategoryIndex::class)->name('category.index');
+        Route::get('create', CategoryEdit::class)->name('category.create');
+        Route::get('edit/{id}', CategoryEdit::class)->name('category.edit');
+        Route::get('view/{id}', CategoryView::class)->name('category.view');
     });
 });

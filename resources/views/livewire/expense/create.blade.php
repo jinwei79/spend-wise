@@ -6,7 +6,7 @@
                     <p><b>Description :</b></p>
                 </div>
                 <div class="col-span-2 flex items-center justify-center">
-                    <input type="text" id="description_{{ $index }}" wire:model="expenses.{{ $index }}.description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <input type="text" id="description_{{ $index }}" wire:model="expenses.{{ $index }}.description" wire:change='onChangeDescription({{ $index }})' class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
 
                 </div>
                 <div class="col-span-3 flex justify-start">
@@ -34,6 +34,22 @@
                 </div>
                 <div class="col-span-4 flex justify-start">
                     @error("expenses.{$index}.amount")
+                        <span class="text-sm text-red-600">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div class="col-span-1 flex items-center justify-center">
+                    <p><b>Category :</b></p>
+                </div>
+                <div class="col-span-2 flex items-center justify-center">
+                    <select id="category_{{ $index }}" wire:model="expenses.{{ $index }}.expense_category_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Select Category</option>
+                        @foreach($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-span-4 flex justify-start">
+                    @error("expenses.{$index}.expense_category_id")
                         <span class="text-sm text-red-600">{{ $message }}</span>
                     @enderror
                 </div>
