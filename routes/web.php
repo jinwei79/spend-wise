@@ -5,12 +5,7 @@ use App\Livewire\Expense\Edit;
 use App\Livewire\Expense\Index;
 use App\Livewire\Report\ExpenseReport;
 use Illuminate\Support\Facades\Route;
-
-
-
-
-
-
+//test
 Route::get('/', function () {
     // return view('welcome');
     return redirect()->route('login');
