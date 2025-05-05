@@ -10,12 +10,15 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        @stack('scripts')
 
         <!-- Styles -->
         @livewireStyles
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>  <!-- Keep only one -->
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -40,6 +43,6 @@
 
         @stack('modals')
 
-        @livewireScripts
+        @livewireScripts  <!-- Place this here -->
     </body>
 </html>
