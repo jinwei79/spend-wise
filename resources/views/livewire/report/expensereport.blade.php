@@ -141,6 +141,6 @@ document.addEventListener('livewire:init', () => {
             }
         }
     });
-});
+}); 
 </script>
 @endpush
