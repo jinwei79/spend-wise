@@ -9,15 +9,22 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './src/**/*.{html,js,ts,jsx,tsx}', 
     ],
-    darkMode: 'class', // Disable dark mode
+    darkMode: 'class', 
 
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                primary: 'rgba(85, 208, 64, 0.25)',
+            
+              },
+           
         },
+        
     },
 
     plugins: [forms, typography],

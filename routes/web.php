@@ -15,6 +15,11 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
+
+Route::get('/mainpage', function () {
+    return view('mainpage');
+})->name('mainpage');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -23,6 +28,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+   
 
 
     Route::prefix('expense')->group(function () {
