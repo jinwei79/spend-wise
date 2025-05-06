@@ -1,6 +1,6 @@
 <div>
 
-    <div class="flex flex-col w-3/4 mx-auto my-5">
+    <div class="flex flex-col w-full mx-auto my-5">
         @if (session()->has('message'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-3" role="alert">
                 {{ session('message') }}
