@@ -10,8 +10,6 @@ use App\Livewire\Expense\Category\Create as CategoryCreate;
 use App\Livewire\Expense\Category\Edit as CategoryEdit;
 use App\Livewire\Expense\Category\Index as CategoryIndex;
 use App\Livewire\Expense\Category\View as CategoryView;
-use App\Livewire\Expense\Show;
-use App\Livewire\Expense\ShowByDate;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Http\Request;
