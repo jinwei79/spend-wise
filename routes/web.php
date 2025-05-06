@@ -19,7 +19,17 @@ Route::get('/welcome', function () {
 Route::get('/mainpage', function () {
     return view('mainpage');
 })->name('mainpage');
+Route::get('/', function () {
+    return redirect('/index');
+});
 
+
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('dashboard'); // or home page
+    }
+    return view('index'); // Blade or even static if embedded
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
