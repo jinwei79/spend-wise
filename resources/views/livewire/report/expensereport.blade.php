@@ -1,139 +1,113 @@
-
-
-<div class="flex justify-center">
-    
-<div class="p-6 text-gray-900">
-    <!-- Timeframe Selector -->
-    <div class="flex flex-wrap gap-3 mb-6">
-        @foreach(['week' => 'Week', 'month' => 'Month', 'year' => 'Year'] as $key => $label)
-            <button wire:click="$set('timeframe', '{{ $key }}')"
-                class="px-4 py-2 rounded-full text-sm
-                    {{ $timeframe === $key ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700' }}">
-                {{ $label }}
-            </button>
-
-            
-        @endforeach
-    </div>
-
-    <!-- Combined Monthly Summary and Pie Chart -->
-
-    <div class=" p-6 rounded-lg shadow mb-6">
-        <div class="flex justify-between items-start mb-6">
-            <div>
-                <h2 class="text-xl font-bold">Monthly Expenses</h2>
-                <h3 class="text-lg text-gray-600">{{ now()->format('F Y') }}</h3>
-            </div>
-            
-            <div class="text-2xl font-bold text-blue-500">
-                Total: RM{{ number_format($chartData['total'] ?? 0, 2) }}
-            </div>
-            
-        </div>
-
-   
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Pie Chart -->
-        <div class="h-64">
-            <canvas id="pieChart" width="400" height="400"></canvas>
-        </div>
-        
-        
-        <!-- Expense Breakdown -->
-        <div class="bg-white shadow-lg rounded-lg p-4">
-        <div>
-            <div class="mb-4">
-                <h3 class="text-lg font-semibold">Expense Breakdown</h3>
-            </div>
-            <div class="space-y-4">
-                @foreach($chartData['labels'] ?? [] as $index => $label)
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <div class="w-3 h-3 rounded-full mr-2" 
-                             style="background-color: {{ $chartData['colors'][$index] ?? '#999' }}"></div>
-                        <span>{{ $label }}</span>
-                    </div>
-                    <div class="text-right">
-                        <span class="font-medium">RM{{ number_format($chartData['data'][$index] ?? 0, 2) }}</span>
-                        <span class="text-sm text-gray-500 ml-2">
-                            ({{ round(($chartData['data'][$index] / $chartData['total']) * 100, 1) }}%)
-                        </span>
-                    </div>
-                </div>
+<div>
+    <div class="flex justify-center">
+        <div class="p-6 text-gray-900">
+            <!-- Timeframe Selector -->
+            <div class="flex flex-wrap gap-3 mb-6">
+                @foreach(['month' => 'Month', '6months' => 'Last 6 Months', 'year' => 'This Year', 'all_time' => 'All Time'] as $key => $label)
+                    <button wire:click="$set('timeframe', '{{ $key }}')"
+                            class="px-4 py-2 rounded-full text-sm
+                            {{ $timeframe === $key ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700' }}">
+                        {{ $label }}
+                    </button>
                 @endforeach
             </div>
-            </div>
-            
 
-            <!-- Action Buttons Container -->
-            <div class="mt-6 space-y-3 flex flex-col items-end">
-                <!-- <button class="text-blue-500 font-medium hover:text-blue-700 transition">
-                    View All Expenses
-                </button> -->
-                
-                <button wire:click="exportPdf" 
-                        class="px-5 py-2.5 text-white font-medium rounded-lg flex items-center gap-2 hover:opacity-90 transition-opacity"
-                        style="background-color: #3EB798;">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <span class="text-center flex-1">Export PDF</span>
-                </button>
-            </div>
-            
-            
-        </div>
-        
-    </div>
-</div>
+            <!-- Report Summary -->
+            <div class="p-6 rounded-lg shadow mb-6">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <h2 class="text-xl font-bold">{{ ucfirst(str_replace('_', ' ', $timeframe)) }} Expenses</h2>
+                        <h3 class="text-lg text-gray-600">{{ $this->getTimeLabel() }}</h3>
+                    </div>
+                    <div class="text-2xl font-bold text-blue-500">
+                        Total: RM{{ number_format($chartData['total'] ?? 0, 2) }}
+                    </div>
+                </div>
 
-
-
-    <!-- Recent Transactions -->
-    <div class="bg-white shadow-lg rounded-lg p-4 w-12">
-        <h3 class="text-lg font-semibold mb-4">Recent Transactions</h3>
-        <ul class="divide-y">
-            @foreach($expenses as $expense)
-                <li class="py-3">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-3">
-                            <div class="p-2 rounded-full bg-gray-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-medium">{{ $expense['name'] }}</p>
-                                <p class="text-sm text-gray-500">{{ $expense['category'] }}</p>
-                            </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Pie Chart -->
+                    <div class="relative w-full max-w-xs mx-auto aspect-square">
+                        <canvas id="pieChart" class="w-full h-full"></canvas>
+                    </div>
+                    
+                    <!-- Expense Breakdown -->
+                    <div class="bg-white shadow-lg rounded-lg p-4">
+                        <div class="mb-4">
+                            <h3 class="text-lg font-semibold">Expense Breakdown</h3>
                         </div>
-                        <div class="text-right">
-                            <p class="font-medium text-red-500">-RM{{ number_format($expense['amount'], 2) }}</p>
-                            <p class="text-sm text-gray-500">
-                                {{ \Carbon\Carbon::parse($expense['date'])->format('M d, Y') }}
-                            </p>
+                        <div class="space-y-4">
+                            @foreach($chartData['labels'] ?? [] as $index => $label)
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <div class="w-3 h-3 rounded-full mr-2"
+                                             style="background-color: {{ $chartData['colors'][$index] ?? '#999' }}"></div>
+                                        <span>{{ $label }}</span>
+                                    </div>
+                                    <div class="text-right">
+                                        <span class="font-medium">RM{{ number_format($chartData['data'][$index] ?? 0, 2) }}</span>
+                                        <span class="text-sm text-gray-500 ml-2">
+                                            ({{ round(($chartData['data'][$index] / $chartData['total']) * 100, 1) }}%)
+                                        </span>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </li>
-            @endforeach
-        </ul>
+                </div>
+                
+                <!-- Export Button -->
+                <div class="mt-4 flex justify-end">
+                    <button wire:click="exportPdf"
+                            class="px-5 py-2.5 text-white font-medium rounded-lg flex items-center gap-2 hover:opacity-90 transition-opacity"
+                            style="background-color: #3EB798;">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                        <span>Export PDF</span>
+                    </button>
+                </div>
+            </div>
 
+            <!-- Recent Expenses -->
+            <div class="bg-white shadow-lg rounded-lg p-4 mt-6">
+                <h3 class="text-lg font-semibold mb-4">Recent Expenses</h3>
+                <ul class="divide-y">
+                    @foreach($expenses as $expense)
+                        <li class="py-3">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center space-x-3">
+                                    <div class="p-2 rounded-full" style="background-color: {{ $expense->category->color_code }}">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">{{ $expense->category->name }}</p>
+                                        <p class="text-sm text-gray-500">{{ $expense->description }}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="font-medium text-gray-500">RM{{ number_format($expense->amount, 2) }}</p>
+                                    <p class="text-sm text-gray-500">{{ \Carbon\Carbon::parse($expense->date)->format('M d, Y') }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
     </div>
-    
-</div>
-
-<!-- icon -->
-<div style="font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 62px; text-align: center;">
-
-    <div style="position: absolute; right: 120px; top: 250px;">
-
+       <!-- Icon facebook-->  
+       <div style="position: absolute; right: 120px; top: 250px;">
     <a href="https://www.facebook.com" target="_blank" style="position: absolute; right: 20px; top: 50px; display: inline-block;">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.3337 24.5838C18.0234 24.2416 20.4819 22.888 22.2094 20.7982C23.937 18.7084 24.804 16.0392 24.6342 13.3331C24.4644 10.627 23.2706 8.08715 21.2953 6.22968C19.3201 4.3722 16.7117 3.33653 14.0003 3.33317C11.2856 3.33115 8.67226 4.36429 6.69278 6.22207C4.7133 8.07986 3.51665 10.6225 3.34665 13.3319C3.17665 16.0413 4.04611 18.7135 5.77785 20.8042C7.50959 22.8948 9.97331 24.2465 12.667 24.5838V16.6665H10.0003V13.9998H12.667V11.7945C12.667 10.0118 12.8537 9.36517 13.2003 8.71317C13.5418 8.06808 14.0696 7.54075 14.715 7.19984C15.2243 6.9265 15.8577 6.7625 16.9643 6.69184C17.403 6.66384 17.971 6.6985 18.6683 6.7985V9.33184H18.0003C16.7777 9.33184 16.2723 9.38917 15.971 9.5505C15.7912 9.64298 15.6448 9.78937 15.5523 9.96917C15.3923 10.2705 15.3337 10.5692 15.3337 11.7932V13.9998H18.667L18.0003 16.6665H15.3337V24.5838ZM14.0003 27.3332C6.63633 27.3332 0.666992 21.3638 0.666992 13.9998C0.666992 6.63584 6.63633 0.666504 14.0003 0.666504C21.3643 0.666504 27.3337 6.63584 27.3337 13.9998C27.3337 21.3638 21.3643 27.3332 14.0003 27.3332Z" fill="#3EB798"/>
-        </svg>
+        </svg> 
     </button>
-    </div>
-
+    </div>   
+    <!-- Icon IG--> 
     <div style="position: absolute; right: 120px; top: 300px;">
 
     <a href="https://www.instagram.com" target="_blank" style="position: absolute; right: 20px; top: 50px; display: inline-block;">
@@ -149,8 +123,8 @@
         </svg>
 
     </button>
-    </div> 
-
+    </div>
+    <!-- Icon Twitter-->
     <div style="position: absolute; right: 120px; top: 350px;">
 
     <a href="https://x.com/?lang=en-my" target="_blank" style="position: absolute; right: 20px; top: 50px; display: inline-block;">
@@ -168,10 +142,10 @@
     </button>
     </div>
 
-
+  <!-- Icon chat bot-->
     <div style="position: absolute; right: 120px; top: 400px;">
 
-    <a href="https://www.facebook.com" target="_blank" style="position: absolute; right: 20px; top: 50px; display: inline-block;">
+    <a href="{{ route('chat') }}" target="_blank" style="position: absolute; right: 20px; top: 50px; display: inline-block;">
             <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clip-path="url(#clip0_220_3348)">
                     <path d="M4.04876 0.0379193C4.11969 0.0375827 4.19061 0.0372461 4.26368 0.0368993C4.49962 0.0360102 4.73554 0.03645 4.97149 0.036896C5.14135 0.0366419 5.31121 0.0361102 5.48107 0.0355961C5.89357 0.0345248 6.30606 0.0344687 6.71856 0.0347969C7.0541 0.0350502 7.38963 0.0349585 7.72517 0.0346252C7.79699 0.034555 7.79699 0.034555 7.87025 0.0344834C7.96754 0.0343877 8.06482 0.0342915 8.1621 0.034195C9.07311 0.0333382 9.98413 0.0336763 10.8951 0.034394C11.7271 0.0350145 12.559 0.0342063 13.3909 0.0327107C14.2468 0.0311837 15.1027 0.0305864 15.9585 0.0310015C16.4384 0.0312192 16.9182 0.0310838 17.3981 0.0299858C17.8066 0.0290624 18.2151 0.0290301 18.6237 0.0301152C18.8317 0.0306446 19.0398 0.0306502 19.2479 0.0298245C20.6646 0.0246341 21.7949 0.182441 22.8749 1.18715C23.6187 1.94683 24.0212 2.88392 24.0161 3.94501C24.0164 3.99958 24.0166 4.05415 24.0169 4.11037C24.0175 4.29171 24.0173 4.47304 24.017 4.65439C24.0173 4.78503 24.0176 4.91566 24.018 5.0463C24.0188 5.40013 24.0189 5.75396 24.0187 6.10779C24.0186 6.40365 24.0189 6.69952 24.0192 6.99539C24.0199 7.69369 24.02 8.392 24.0196 9.0903C24.0192 9.80954 24.02 10.5288 24.0213 11.248C24.0224 11.8666 24.0228 12.4851 24.0226 13.1036C24.0225 13.4726 24.0226 13.8416 24.0235 14.2105C24.0243 14.5577 24.0242 14.9048 24.0233 15.252C24.0232 15.379 24.0234 15.5059 24.0239 15.6329C24.029 16.9739 23.7752 18.0262 22.8023 19.0114C22.337 19.4447 21.8531 19.7317 21.2499 19.9254C21.2098 19.9384 21.1698 19.9513 21.1286 19.9647C20.5068 20.1508 19.8657 20.1322 19.2224 20.1266C19.133 20.126 19.0436 20.1256 18.9542 20.1251C18.812 20.1244 18.6697 20.1236 18.5275 20.1227C18.1752 20.1206 17.8229 20.1196 17.4705 20.1192C17.3935 20.1192 17.3935 20.1192 17.3149 20.1191C17.1033 20.1189 16.8917 20.1188 16.6802 20.1187C16.0817 20.1183 15.4833 20.1169 14.8849 20.112C14.408 20.1082 13.9312 20.1068 13.4542 20.1082C13.2025 20.1089 12.9508 20.1083 12.699 20.1048C12.4621 20.1015 12.2253 20.1015 11.9883 20.1039C11.8611 20.1043 11.7339 20.1014 11.6068 20.0983C11.0733 20.1078 10.801 20.2374 10.4381 20.6089C10.4102 20.6386 10.3822 20.6683 10.3535 20.6989C10.1908 20.871 10.0212 21.0169 9.83579 21.1637C9.61349 21.3427 9.39827 21.5261 9.18735 21.7184C8.91861 21.9633 8.6399 22.1929 8.35728 22.4215C8.19226 22.5581 8.03315 22.6991 7.87485 22.8434C7.60598 23.0885 7.32718 23.3182 7.04429 23.5468C6.88155 23.6816 6.72562 23.8214 6.57017 23.9645C6.32708 24.1857 6.07599 24.3923 5.81626 24.5934C5.78151 24.6205 5.74675 24.6476 5.71094 24.6755C5.3976 24.915 5.14168 24.9774 4.74985 24.9371C4.39516 24.812 4.16818 24.5863 3.99985 24.2496C3.99412 24.1188 3.99251 23.9878 3.99276 23.8568C3.99275 23.8165 3.99274 23.7763 3.99273 23.7348C3.99277 23.6016 3.99326 23.4683 3.99375 23.3351C3.99387 23.2428 3.99396 23.1505 3.99402 23.0582C3.99426 22.8151 3.99487 22.572 3.99556 22.3289C3.9962 22.0809 3.99649 21.8329 3.9968 21.5849C3.99747 21.0981 3.99854 20.6114 3.99985 20.1246C3.93288 20.1171 3.8659 20.1096 3.7969 20.1018C3.70724 20.0913 3.61758 20.0808 3.52793 20.0702C3.484 20.0653 3.44007 20.0604 3.39481 20.0554C2.42451 19.9393 1.49646 19.4517 0.874855 18.6871C0.300182 17.9446 -0.009929 17.1504 -0.0089226 16.2089C-0.00910829 16.1545 -0.00929394 16.1001 -0.00948526 16.0441C-0.0100272 15.8618 -0.0101224 15.6796 -0.0102158 15.4973C-0.0105051 15.3666 -0.0108192 15.2359 -0.0111561 15.1052C-0.0119758 14.7501 -0.012379 14.3949 -0.0126567 14.0398C-0.01284 13.8178 -0.0130966 13.5958 -0.0133758 13.3738C-0.0142304 12.679 -0.0148344 11.9841 -0.0150757 11.2892C-0.0153556 10.4877 -0.0164519 9.68619 -0.0182634 8.88469C-0.0196157 8.26477 -0.0202451 7.64486 -0.0203285 7.02494C-0.020394 6.65488 -0.0207613 6.28484 -0.0218797 5.91478C-0.0229119 5.56646 -0.0230432 5.21814 -0.0224958 4.86981C-0.0224477 4.74231 -0.0227175 4.6148 -0.0233369 4.48729C-0.0291436 3.21691 0.214835 2.13695 1.12485 1.18715C1.93246 0.413368 2.94041 0.0315148 4.04876 0.0379193ZM4.45298 8.80043C4.06516 9.34984 3.99253 9.82592 4.06235 10.4996C4.18193 11.0261 4.4703 11.4459 4.92515 11.7367C5.4686 12.0278 5.92453 12.1324 6.52817 11.9899C7.12978 11.7906 7.49876 11.4193 7.81821 10.8854C8.03495 10.4238 8.01964 9.82987 7.8729 9.35243C7.61379 8.78455 7.23758 8.39011 6.6561 8.1559C5.79299 7.8858 5.06782 8.17162 4.45298 8.80043ZM10.4374 8.81215C10.0641 9.30474 9.97332 9.72639 10.0284 10.3402C10.1217 10.9504 10.3689 11.3653 10.8631 11.7301C11.3876 12.08 11.8235 12.0996 12.4374 11.9996C13.0967 11.8231 13.4642 11.4777 13.8021 10.8976C14.0278 10.4387 14.0232 9.82963 13.869 9.34926C13.5998 8.78228 13.2778 8.40839 12.6944 8.17006C11.8567 7.88203 11.023 8.15443 10.4374 8.81215ZM16.453 8.80043C16.0652 9.34984 15.9925 9.82592 16.0624 10.4996C16.1819 11.0261 16.4703 11.4459 16.9251 11.7367C17.4686 12.0278 17.9245 12.1324 18.5282 11.9899C19.1298 11.7906 19.4988 11.4193 19.8182 10.8854C20.0349 10.4238 20.0196 9.82987 19.8729 9.35243C19.6138 8.78455 19.2376 8.39011 18.6561 8.1559C17.793 7.8858 17.0678 8.17162 16.453 8.80043Z" fill="#3EB798"/>
@@ -188,7 +162,8 @@
     </button>
     </div>
 
-
+    
+  <!-- Icon line-->
     <div style="position: absolute; right: 135px; top: 450px;">
 
    
@@ -201,40 +176,25 @@
     </button>
     </div>
 </div>
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener('livewire:init', () => {
-    const ctx = document.getElementById('pieChart');
-    const chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: @json($chartData['labels'] ?? []),
-            datasets: [{
-                data: @json($chartData['data'] ?? []),
-                backgroundColor: @json($chartData['colors'] ?? []),
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'right',
-                },
-                tooltip: {
-                    callbacks: {
-                        label: (context) => {
-                            const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                            const percentage = Math.round((context.raw / total) * 100);
-                            return `${context.label}: RM${context.raw.toLocaleString()} (${percentage}%)`;
-                        }
-                    }
-                }
+
+    <script>
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var chartData = @json($chartData);
+
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    data: chartData.data,
+                    backgroundColor: chartData.colors,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true
             }
-        }
-    });
-});
-</script>
-@endpush
+        });
+    </script>
+</div>
