@@ -99,8 +99,8 @@
             </div>
         </div>
     </div>
-       <!-- Icon facebook-->  
-       <div style="position: absolute; right: 120px; top: 250px;">
+     <!-- Icon facebook-->  
+     <div style="position: absolute; right: 120px; top: 250px;">
     <a href="https://www.facebook.com" target="_blank" style="position: absolute; right: 20px; top: 50px; display: inline-block;">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M15.3337 24.5838C18.0234 24.2416 20.4819 22.888 22.2094 20.7982C23.937 18.7084 24.804 16.0392 24.6342 13.3331C24.4644 10.627 23.2706 8.08715 21.2953 6.22968C19.3201 4.3722 16.7117 3.33653 14.0003 3.33317C11.2856 3.33115 8.67226 4.36429 6.69278 6.22207C4.7133 8.07986 3.51665 10.6225 3.34665 13.3319C3.17665 16.0413 4.04611 18.7135 5.77785 20.8042C7.50959 22.8948 9.97331 24.2465 12.667 24.5838V16.6665H10.0003V13.9998H12.667V11.7945C12.667 10.0118 12.8537 9.36517 13.2003 8.71317C13.5418 8.06808 14.0696 7.54075 14.715 7.19984C15.2243 6.9265 15.8577 6.7625 16.9643 6.69184C17.403 6.66384 17.971 6.6985 18.6683 6.7985V9.33184H18.0003C16.7777 9.33184 16.2723 9.38917 15.971 9.5505C15.7912 9.64298 15.6448 9.78937 15.5523 9.96917C15.3923 10.2705 15.3337 10.5692 15.3337 11.7932V13.9998H18.667L18.0003 16.6665H15.3337V24.5838ZM14.0003 27.3332C6.63633 27.3332 0.666992 21.3638 0.666992 13.9998C0.666992 6.63584 6.63633 0.666504 14.0003 0.666504C21.3643 0.666504 27.3337 6.63584 27.3337 13.9998C27.3337 21.3638 21.3643 27.3332 14.0003 27.3332Z" fill="#3EB798"/>
@@ -178,23 +178,97 @@
 </div>
 
     <script>
-        var ctx = document.getElementById('pieChart').getContext('2d');
-        var chartData = @json($chartData);
+    var pieChartInstance = null;
+    var chartData = @json($chartData);
 
-        var pieChart = new Chart(ctx, {
+    function renderChart() {
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        const chartData = @json($chartData);
+
+        // Destroy previous chart if it exists
+        if (pieChartInstance) {
+            pieChartInstance.destroy();
+        }
+
+        pieChartInstance = new Chart(ctx, {
             type: 'pie',
             data: {
                 labels: chartData.labels,
                 datasets: [{
                     data: chartData.data,
                     backgroundColor: chartData.colors,
-                    hoverOffset: 4
+                    borderWidth: 1
                 }]
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.formattedValue || '';
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((context.raw / total) * 100);
+                                return `${label}: RM${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
             }
         });
-    </script>
+    }
+
+    // Initial render
+    document.addEventListener('DOMContentLoaded', function() {
+        renderChart();
+    });
+
+    // Handle Livewire updates
+    Livewire.on('chartUpdated', (chartData) => {
+    if (chartData.labels && chartData.labels.length > 0) {
+        if (pieChartInstance) {
+            pieChartInstance.destroy();
+        }
+
+        const ctx = document.getElementById('pieChart').getContext('2d');
+        pieChartInstance = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: chartData.labels,
+                datasets: [{
+                    data: chartData.data,
+                    backgroundColor: chartData.colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                const label = context.label || '';
+                                const value = context.formattedValue || '';
+                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                const percentage = Math.round((context.raw / total) * 100);
+                                return `${label}: RM${value} (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    } else {
+        console.warn('No chart data received');
+    }
+});
+console.log(chartData);
+</script>
 </div>
