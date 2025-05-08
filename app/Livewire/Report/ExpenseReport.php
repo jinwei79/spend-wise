@@ -23,15 +23,17 @@ class ExpenseReport extends Component
 
     public function updatedTimeframe()
     {
+        \Log::info('Updated Timeframe: ' . $this->timeframe); // Log the selected timeframe
         $this->loadExpenses();
         $this->prepareChartData();
+    
+        $this->dispatch('chartUpdated', $this->chartData); // Add this to trigger chart update
     }
-
     private function loadExpenses()
     {
         $query = Expense::with('category')
             ->where('user_id', Auth::id());
-
+    
         switch ($this->timeframe) {
             case 'month':
                 $query->whereMonth('date', now()->month)
@@ -44,43 +46,63 @@ class ExpenseReport extends Component
                 $query->whereYear('date', now()->year);
                 break;
             case 'all_time':
+                // Explicitly log query for debugging
+                \Log::info("Fetching all time expenses.");
+                $query->whereRaw('DATE(date) <= CURDATE()');
                 break;
         }
-
-        $this->expenses = $query->orderBy('date', 'desc')->get();
+    
+        // Log the SQL query
+        $expenses = $query->orderBy('date', 'desc')->get();
+        \Log::info("SQL Query Executed: " . $query->toSql());
+        \Log::info("Expenses count: " . $expenses->count());
+    
+        $this->expenses = $expenses;
     }
+    
+       
 
     private function prepareChartData()
-{
-    $grouped = $this->expenses->groupBy('category.name');
-    $labels = [];
-    $data = [];
-    $colors = [];
-    $total = 0;
+    {
+        // Log the raw expenses data
+        \Log::info('Expenses: ' . json_encode($this->expenses));
+    
+        // Group by category name and sum amounts
+        $grouped = $this->expenses->groupBy('category.name')->map(function ($items) {
+            return $items->sum('amount');
+        })->sortDesc();
+    
+        // Log grouped data
+        \Log::info('Grouped Data: ' . json_encode($grouped));
+    
+        $labels = $grouped->keys()->toArray();
+        $data = $grouped->values()->toArray();
+    
+        // Log chart data before passing to view
+        \Log::info('Chart Data: ' . json_encode([
+            'labels' => $labels,
+            'data' => $data,
+            'total' => array_sum($data)
+        ]));
+    
+        // Generate colors
+        $colors = [];
+        foreach ($labels as $index => $label) {
+            $color = $this->expenses->firstWhere('category.name', $label)?->category?->color_code 
+                   ?? $this->generateRandomColor($index) 
+                   ?? '#999999';
+            $colors[] = $color;
+        }
 
-    foreach ($grouped as $category => $items) {
-        $labels[] = $category;
-        $amount = $items->sum('amount');
-        $data[] = $amount;
-
-        // Check the color
-        $categoryColor = $items->first()->category->color_code ?? '#999999';
-        $colors[] = $categoryColor;
-
-        // Log the colors for debugging
-        \Log::info('Category Color for ' . $category . ': ' . $categoryColor);
-
-        $total += $amount;
+    
+        $this->chartData = [
+            'labels' => $labels,
+            'data' => $data,
+            'colors' => $colors,
+            'total' => array_sum($data)
+        ];
     }
-
-    $this->chartData = [
-        'labels' => $labels,
-        'data' => $data,
-        'colors' => $colors,
-        'total' => $total
-    ];
-}
-
+    
 
     public function exportPdf()
     {
@@ -103,7 +125,7 @@ class ExpenseReport extends Component
             return redirect()->back();
         }
     }
-    
+
     private function generateChartImage()
     {
         try {
@@ -154,8 +176,7 @@ class ExpenseReport extends Component
             return $this->generateFallbackChart();
         }
     }
-    
-    
+
     private function generateFallbackChart()
     {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300" viewBox="0 0 500 300">
