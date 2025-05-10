@@ -23,15 +23,15 @@ class ExpenseReport extends Component
 
     public function updatedTimeframe()
     {
-        \Log::info('Updated Timeframe: ' . $this->timeframe); // Log the selected timeframe
+        \Log::info('Updated Timeframe: ' . $this->timeframe); 
         $this->loadExpenses();
         $this->prepareChartData();
     
-        $this->dispatch('chartUpdated', $this->chartData); // Add this to trigger chart update
+        $this->dispatch('chartUpdated', $this->chartData); 
     }
     private function loadExpenses()
     {
-        $query = Expense::with('expenseCategory')
+        $query = Expense::with('category')
             ->where('user_id', Auth::id());
     
         switch ($this->timeframe) {
@@ -46,13 +46,13 @@ class ExpenseReport extends Component
                 $query->whereYear('date', now()->year);
                 break;
             case 'all_time':
-                // Explicitly log query for debugging
+              
                 \Log::info("Fetching all time expenses.");
                 $query->whereRaw('DATE(date) <= CURDATE()');
                 break;
         }
     
-        // Log the SQL query
+        
         $expenses = $query->orderBy('date', 'desc')->get();
         \Log::info("SQL Query Executed: " . $query->toSql());
         \Log::info("Expenses count: " . $expenses->count());
@@ -64,21 +64,21 @@ class ExpenseReport extends Component
 
     private function prepareChartData()
     {
-        // Log the raw expenses data
+ 
         \Log::info('Expenses: ' . json_encode($this->expenses));
     
-        // Group by category name and sum amounts
+     
         $grouped = $this->expenses->groupBy('category.name')->map(function ($items) {
             return $items->sum('amount');
         })->sortDesc();
     
-        // Log grouped data
+      
         \Log::info('Grouped Data: ' . json_encode($grouped));
     
         $labels = $grouped->keys()->toArray();
         $data = $grouped->values()->toArray();
     
-        // Log chart data before passing to view
+   
         \Log::info('Chart Data: ' . json_encode([
             'labels' => $labels,
             'data' => $data,
@@ -86,10 +86,10 @@ class ExpenseReport extends Component
         ]));
     
         // Generate colors
-       $colors = [];
+        $colors = [];
         foreach ($labels as $index => $label) {
             $color = $this->expenses->firstWhere('category.name', $label)?->category?->color_code 
-                   //?? $this->generateRandomColor($index) 
+                   ?? $this->generateRandomColor($index) 
                    ?? '#999999';
             $colors[] = $color;
         }
@@ -135,7 +135,7 @@ class ExpenseReport extends Component
                     'labels' => $this->chartData['labels'],
                     'datasets' => [[
                         'data' => $this->chartData['data'],
-                        'backgroundColor' => $this->chartData['colors'], // Ensure this is an array of valid colors
+                        'backgroundColor' => $this->chartData['colors'], 
                         'borderWidth' => 1,
                     ]]
                 ],
@@ -160,7 +160,7 @@ class ExpenseReport extends Component
                 ]
             ];
     
-            // Check the final config before sending it to QuickChart
+            
             \Log::info('Chart Config:', $chartConfig);
     
             $chartUrl = 'https://quickchart.io/chart?width=500&height=300&c=' . urlencode(json_encode($chartConfig));
@@ -172,7 +172,7 @@ class ExpenseReport extends Component
     
             return 'data:image/png;base64,' . base64_encode($imageContent);
         } catch (\Exception $e) {
-            // Fallback to a simple SVG placeholder
+          
             return $this->generateFallbackChart();
         }
     }
