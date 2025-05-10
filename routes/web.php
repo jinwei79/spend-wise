@@ -16,6 +16,7 @@ use App\Livewire\Report\ExpenseReport;
 use App\Services\GroqService;
 use Illuminate\Support\Facades\Route;
 //test
+
 Route::get('/', function () {
     // return view('welcome');
     return redirect()->route('login');
@@ -35,13 +36,22 @@ Route::get('/mainpage', function () {
     return view('mainpage');
 })->name('mainpage');
 
+
+
+
+Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect()->route('mainpage'); // or home page
+    }
+    return view('index'); // Blade or even static if embedded
+});
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('mainpage');
     })->name('dashboard');
 
 
