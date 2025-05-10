@@ -71,11 +71,16 @@
                         </svg>
                         {{ __('Category') }}
                     </x-nav-link>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('recurring-expense.index') }}" :active="request()->routeIs('recurring-expense.*')">
+
+                    <x-nav-link href="{{ route('recurring-expense.index') }}" :active="request()->routeIs('recurring-expense.*')" class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
+                            <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                        </svg>
                         {{ __('Recurring Expenses') }}
                     </x-nav-link>
-                </div>
+
+                   
                     <x-nav-link href="{{ route('report.expense') }}" :active="request()->routeIs('report.*')" class="flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -121,7 +126,7 @@
                             {{ __('Manage Account') }}
                         </div>
 
-                        <x-dropdown-link href="{{ route('profile.show') }}">
+                        <x-dropdown-link href="{{ route('profile.profile_form') }}">
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
@@ -135,9 +140,7 @@
                                      @click.prevent="$root.submit();">
                                 {{ __('Log Out') }}
                                 </x-dropdown-link>
-                            <x-dropdown-link href="{{ route('profile.profile_form') }}">
-                                {{ __('Profile') }}
-                            </x-dropdown-link>
+                            
                              
                         </form>
                     </x-slot>
