@@ -7,14 +7,17 @@
 
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
+                    <h1 style="font-size: 35px; font-weight: bold;">Sign Up</h1><br/>
 
-                    <div class="mt-4">
-                        <x-label for="first_name" value="{{ __('First Name') }}" />
-                        <x-input id="nafirst_nameme" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
-                    </div>
-                    <div class="mt-4">
-                        <x-label for="last_name" value="{{ __('Last Name') }}" />
-                        <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="last_name" />
+                    <div class="flex space-x-4 bg-primary">
+                        <div class="mt-4 flex-1">
+                            <x-label for="first_name" value="{{ __('First Name') }}" />
+                            <x-input id="first_name" class="block mt-1 w-full" type="text" name="first_name" :value="old('first_name')" required autofocus autocomplete="first_name" />
+                        </div>
+                        <div class="mt-4 flex-1">
+                            <x-label for="last_name" value="{{ __('Last Name') }}" />
+                            <x-input id="last_name" class="block mt-1 w-full" type="text" name="last_name" :value="old('last_name')" required autocomplete="last_name" />
+                        </div>
                     </div>
                     <div class="mt-4">
                         <x-label for="username" value="{{ __('Username') }}" />
@@ -29,12 +32,15 @@
                     <div class="mt-4">
                         <x-label for="password" value="{{ __('Password') }}" />
                         <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                        <p class="text-sm text-gray-500 mt-1">
+                            {{ __('It must be a combination of minimum 8 letters, numbers and symbols') }}
+                        </p>
                     </div>
 
-                    <div class="mt-4">
+                    <!-- <div class="mt-4">
                         <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
                         <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-                    </div>
+                    </div> -->
 
                     <div class="mt-4">
                         <x-label for="birthday" value="{{ __('Birthday') }}" />

@@ -13,6 +13,9 @@ trait PasswordValidationRules
      */
     protected function passwordRules(): array
     {
-        return ['required', 'string', Password::default(), 'confirmed'];
+        return ['required', 'string', Password::min(8)
+        ->letters()     // Must contain at least one letter
+        ->numbers()     // Must contain at least one number
+        ->symbols(),];  // Must contain at least one symbol
     }
 }

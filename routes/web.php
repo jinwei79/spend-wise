@@ -15,7 +15,11 @@ use App\Livewire\Budget\View as BudgetView;
 use App\Livewire\Report\ExpenseReport;
 use App\Services\GroqService;
 use Illuminate\Support\Facades\Route;
-//test
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     // return view('welcome');
@@ -45,6 +49,17 @@ Route::get('/', function () {
     }
     return view('index'); // Blade or even static if embedded
 });
+Route::get('/force-login', function () {
+    $user = User::find(3); // or use skip(2)->first()
+    Auth::login($user);
+
+    if (Auth::check()) {
+        return 'Logged in as: ' . Auth::user()->name;
+    }
+
+    return 'Login failed';
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -54,6 +69,40 @@ Route::middleware([
         return view('mainpage');
     })->name('dashboard');
 
+    Route::get('/profile', function () {
+        $user = Auth::user(); // Get currently logged-in user
+        return view('profile.profile_form', compact('user')); // Pass it to the view
+    })->name('profile.profile_form');
+
+    Route::put('/profile', function (Request $request) {
+        $user = Auth::user();  // Get the currently logged-in user
+    
+        // Validate input including file
+        $validatedData = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($user->id)],
+            'birthday' => 'required|date',
+            'salary' => 'nullable|numeric',
+            'photo' => 'nullable|image|max:2048', // Optional photo
+        ]);
+
+        // Auto-generate full name
+        $validatedData['name'] = $validatedData['first_name'] . ' ' . $validatedData['last_name'];
+
+        // Handle photo upload if exists
+        if ($request->hasFile('photo')) {
+            $path = $request->file('photo')->store('profile-photos', 'public');
+            $validatedData['profile_photo_path'] = $path;
+        }
+    
+        // Update the user profile
+        $user->update($validatedData);
+    
+        // Optionally add a success message or redirect
+        return redirect()->route('profile.profile_form')->with('message', 'Profile updated successfully!');
+    })->name('profile.update'); 
 
 
 
