@@ -39,6 +39,9 @@ Route::get('/welcome', function () {
 Route::get('/mainpage', function () {
     return view('mainpage');
 })->name('mainpage');
+Route::get('/contactus', function () {
+    return view('contactus');
+})->name('contactus');
 
 
 
