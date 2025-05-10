@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-[#359f83] border-b border-gray-200">
+<nav x-data="{ open: false }" class="bg-[#318161] border-b border-gray-200">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -58,20 +58,24 @@
                         {{ __('Expense') }}
                     </x-nav-link>
                     
-                    <x-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('budget.*')" class="flex items-center">
+                    <x-nav-link href="{{ route('budget.index') }}" :active="request()->routeIs('budget.*')" class="flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
                         </svg>
                         {{ __('Budget') }}
                     </x-nav-link>
                     
-                    <x-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('category.*')" class="flex items-center">
+                    <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.*')" class="flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
                         </svg>
                         {{ __('Category') }}
                     </x-nav-link>
-                    
+                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('recurring-expense.index') }}" :active="request()->routeIs('recurring-expense.*')">
+                        {{ __('Recurring Expenses') }}
+                    </x-nav-link>
+                </div>
                     <x-nav-link href="{{ route('report.expense') }}" :active="request()->routeIs('report.*')" class="flex items-center">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -86,21 +90,8 @@
                         {{ __('Contact Us') }}
                     </x-nav-link>
                 </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('recurring-expense.index') }}" :active="request()->routeIs('recurring-expense.*')">
-                        {{ __('Recurring Expenses') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('budget.index') }}" :active="request()->routeIs('budget.*')">
-                        {{ __('Budget') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.*')">
-                        {{ __('Category') }}
-                    </x-nav-link>
-                </div>
+              
+                
             </div>
 
             <!-- Settings Dropdown -->

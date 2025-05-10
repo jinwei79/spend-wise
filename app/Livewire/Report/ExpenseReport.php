@@ -31,7 +31,7 @@ class ExpenseReport extends Component
     }
     private function loadExpenses()
     {
-        $query = Expense::with('category')
+        $query = Expense::with('expenseCategory')
             ->where('user_id', Auth::id());
     
         switch ($this->timeframe) {
@@ -86,10 +86,10 @@ class ExpenseReport extends Component
         ]));
     
         // Generate colors
-        $colors = [];
+       $colors = [];
         foreach ($labels as $index => $label) {
             $color = $this->expenses->firstWhere('category.name', $label)?->category?->color_code 
-                   ?? $this->generateRandomColor($index) 
+                   //?? $this->generateRandomColor($index) 
                    ?? '#999999';
             $colors[] = $color;
         }
