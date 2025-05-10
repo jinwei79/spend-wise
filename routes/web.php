@@ -12,8 +12,10 @@ use App\Livewire\Expense\Category\View as CategoryView;
 use App\Livewire\Budget\Index as BudgetIndex;
 use App\Livewire\Budget\Edit as BudgetEdit;
 use App\Livewire\Budget\View as BudgetView;
+use App\Livewire\Report\ExpenseReport;
+use App\Services\GroqService;
 use Illuminate\Support\Facades\Route;
-
+//test
 Route::get('/', function () {
     // return view('welcome');
     return redirect()->route('login');
@@ -28,6 +30,11 @@ Route::get('/welcome', function () {
     return view('welcome');
 })->name('welcome');
 
+
+Route::get('/mainpage', function () {
+    return view('mainpage');
+})->name('mainpage');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -36,6 +43,8 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+
 
 
     Route::prefix('expense')->group(function () {
@@ -67,4 +76,13 @@ Route::middleware([
         Route::get('view/{id}', BudgetView::class)->name('budget.view');
     });
 
+    Route::get('edit/{id}', Edit::class)->name('expense.edit');
+    Route::get('/report/expense', ExpenseReport::class)->name('report.expense');
 });
+
+Route::get('/test-groq', function () {
+    $groqService = new GroqService();
+    $response = $groqService->getExpenseCategory();
+    return response()->json($response);
+})->name('test-groq');
+

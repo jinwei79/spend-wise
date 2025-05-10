@@ -14,8 +14,14 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+        @stack('scripts')
+
         <!-- Styles -->
         @livewireStyles
+
+        <!-- Scripts -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>  <!-- Keep only one -->
     </head>
     <body class="font-sans antialiased">
         <x-banner />
@@ -40,6 +46,6 @@
 
         @stack('modals')
 
-        @livewireScripts
+        @livewireScripts  <!-- Place this here -->
     </body>
 </html>
