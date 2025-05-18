@@ -14,6 +14,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="//unpkg.com/alpinejs" defer></script>
+        @livewireScripts
 
         <!-- Styles -->
         @livewireStyles
@@ -50,5 +51,6 @@
         @stack('modals')
 
         @livewireScripts
+        @livewireStyles
     </body>
 </html>
