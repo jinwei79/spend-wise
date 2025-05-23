@@ -6,12 +6,14 @@ use App\Models\Budget;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
 use Carbon\Carbon;
+use App\Services\GroqService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
 class Create extends Component
 {
 
+    protected $groqService;
     public $categories;
     public $remainingBudgets;
 
@@ -27,6 +29,7 @@ class Create extends Component
 
     public function mount()
     {
+        $this->groqService = new GroqService();
         $this->categories = \App\Models\ExpenseCategory::all();
         $this->expenses[0]['date'] = date('Y-m-d');
 
@@ -139,6 +142,7 @@ class Create extends Component
 
     public function onChangeDescription($index)
     {
-        $this->expenses[$index]['expense_category_id'] = $this->categories->random()->id;
+        $groqService = new GroqService();
+        $this->expenses[$index]['expense_category_id'] = $groqService->getExpenseCategory($this->expenses[$index]['description']);
     }
 }

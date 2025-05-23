@@ -1,10 +1,71 @@
-<nav x-data="{ open: false }" class="border-b border-gray-200">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <svg width="87" height="60" viewBox="0 0 87 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    .bg-primary {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      height: 100%;
+      background-color: rgba(85, 208, 64, 0.25);
+    }
+
+    .bg-primary::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(85, 208, 64, 0.25);
+      z-index: -2;
+    }
+
+    .bg-primary::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 150%;
+      background: #F9E1C3;
+      transform: rotate(25deg);
+      transform-origin: left top;
+      right: 70px;
+      top: -50px;
+      filter:
+        drop-shadow(2px 4px 24px rgba(0, 0, 0, 0.08))
+        blur(50px);
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .btn-primary {
+      background-color: #3EB798;
+      color: white;
+      font-weight: 600;
+      padding: 0.5rem 3rem;
+      border-radius: 0.900rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary:hover {
+      background-color: #359f83;
+    }
+  </style>
+</head>
+<body class="bg-primary flex flex-col items-center justify-center font-[Poppins]">
+
+  <!-- Centered SVG -->
+  <div class="flex items-center justify-center h-[60vh]">
+ 
+  <svg width="500" height="600" viewBox="0 0 100 75" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_444_3217)">
 <path d="M57.7947 0.49455C58.0785 0.573521 58.0785 0.573521 58.3679 0.654088C58.9645 0.822486 59.5587 0.99622 60.1524 1.17204C60.4361 1.25549 60.4361 1.25549 60.7255 1.34063C69.31 3.89605 77.5503 7.86555 84.2514 13.186C84.6111 13.4689 84.9809 13.7381 85.3539 14.0077C86.2077 14.6484 86.8948 15.3504 87.0644 16.344C87.1604 17.7469 86.6195 18.6948 85.8544 19.8804C81.4322 26.8034 78.8192 34.5282 77.5344 42.3247C77.4881 42.605 77.4401 42.885 77.3921 43.1651C76.2987 49.7912 76.6925 56.8034 78.0577 63.3759C78.6969 66.5064 78.6969 66.5064 77.8243 67.6759C76.7774 68.6719 75.5472 69.2262 74.1391 69.7633C73.9297 69.8448 73.7203 69.9263 73.511 70.0079C72.8557 70.2613 72.1972 70.508 71.5371 70.7521C71.4318 70.7911 71.3265 70.83 71.2179 70.8702C67.0918 72.3892 62.87 73.6397 58.5169 74.579C58.2226 74.644 58.2226 74.644 57.9224 74.7102C56.0571 75.0937 54.2766 75.1094 52.3997 74.7804C52.1762 74.7421 52.1762 74.7421 51.9481 74.703C48.83 74.1396 45.8128 73.2781 42.8733 72.226C42.6138 72.1352 42.6138 72.1352 42.3491 72.0424C42.1976 71.9878 42.0462 71.9331 41.8902 71.8767C41.3876 71.7605 41.1052 71.7911 40.6114 71.924C40.2178 72.1421 39.8424 72.3651 39.4644 72.6015C36.8133 74.1854 33.6812 75.0072 30.4502 75.0238C30.1157 75.0259 30.1157 75.0259 29.7744 75.028C29.5334 75.0287 29.2924 75.0294 29.0514 75.0299C28.9282 75.0303 28.805 75.0308 28.678 75.0312C28.025 75.0334 27.3721 75.0347 26.7191 75.0354C26.0521 75.0362 25.3851 75.0397 24.7182 75.0438C24.1988 75.0466 23.6795 75.0473 23.1602 75.0476C22.9147 75.048 22.6693 75.0492 22.4238 75.0511C17.6086 75.0866 13.3677 73.5545 9.8555 70.7521C9.71992 70.6471 9.58433 70.5421 9.44464 70.434C4.95817 66.7922 2.26536 60.862 2.01524 55.602C1.86919 50.5215 2.5937 45.5916 5.83114 41.208C5.89499 41.1215 5.95884 41.035 6.02463 40.9458C6.2006 40.7116 6.38208 40.4805 6.56393 40.2496C6.84489 39.7604 6.78844 39.6268 6.62699 39.1115C6.51434 38.8501 6.39372 38.5911 6.26723 38.3344C6.19307 38.1819 6.11891 38.0293 6.04251 37.8721C5.96202 37.707 5.88154 37.542 5.79862 37.372C3.96419 33.5385 2.4701 29.6308 1.18949 25.6349C1.14235 25.4885 1.14235 25.4885 1.09426 25.3392C0.886246 24.6914 0.685483 24.0422 0.488557 23.3919C0.438342 23.2314 0.388128 23.071 0.336391 22.9057C-0.0270634 21.6642 -0.353606 20.1988 0.254915 18.979C1.05766 17.8279 2.57908 17.3242 3.96134 16.8459C4.14114 16.7828 4.32094 16.7197 4.5062 16.6546C9.945 14.7749 15.5502 13.9211 21.4102 14.0627C21.4082 13.9224 21.4062 13.7821 21.4042 13.6375C21.3516 8.37987 21.3516 8.37987 22.5153 7.02741C23.6676 6.08478 25.3735 5.91155 26.8795 5.7039C27.0592 5.67912 27.2389 5.65433 27.4241 5.6288C34.6406 4.66398 41.668 5.06263 48.7676 6.44548C48.8189 6.34818 48.8702 6.25089 48.923 6.15065C49.4157 5.21699 49.9119 4.28479 50.411 3.35364C50.5903 3.01712 50.7663 2.6797 50.9401 2.34105C51.4416 1.40285 52.0026 0.722051 53.0157 0.14665C54.5995 -0.308463 56.2649 0.0536703 57.7947 0.49455Z" fill="#EACF59"/>
 <path d="M62.871 2.78345C65.1292 3.56415 67.3428 4.44708 69.5006 5.41595C69.8682 5.58027 70.2376 5.74138 70.607 5.90253C75.265 7.95279 79.5596 10.5851 83.4872 13.5553C83.7631 13.7636 84.041 13.9698 84.3189 14.176C84.4852 14.3018 84.6514 14.4276 84.8227 14.5571C84.9688 14.667 85.1149 14.7769 85.2655 14.8902C86.037 15.5988 86.2845 16.2996 86.2531 17.2505C86.0541 18.1682 85.4985 18.9564 84.9812 19.7677C82.3256 23.9661 80.2106 28.4698 78.8436 33.1057C78.7955 33.2679 78.7473 33.43 78.6977 33.5971C77.5468 37.5076 76.7862 41.4023 76.2948 45.4104C76.2764 45.5548 76.258 45.6992 76.2391 45.848C76.0503 47.5784 76.091 49.323 76.093 51.0592C76.0932 51.2333 76.0933 51.4074 76.0935 51.5868C76.1021 55.9546 76.2353 60.4835 77.4842 64.7463C77.5629 65.6065 77.6315 66.3826 77.1975 67.1725C76.3038 67.9845 75.3116 68.4151 74.1495 68.8845C73.9751 68.9555 73.8008 69.0265 73.6211 69.0996C70.8768 70.2082 68.077 71.1644 65.2314 72.0618C64.9183 72.1607 64.6056 72.2603 64.2933 72.3608C62.6159 72.9004 60.9325 73.3572 59.1964 73.7368C58.9457 73.792 58.9457 73.792 58.6899 73.8482C57.6504 74.0669 56.6317 74.2027 55.5643 74.2678C53.4602 71.7742 51.5866 69.2075 49.9463 66.4675C49.8919 66.3768 49.8376 66.286 49.7816 66.1925C49.5267 65.7651 49.2754 65.3365 49.0282 64.9057C48.8683 64.6283 48.7037 64.3529 48.5312 64.0811C48.1041 63.3703 48.0325 62.9334 48.2962 62.1626C48.3395 62.0484 48.3829 61.9343 48.4276 61.8166C48.5099 61.5596 48.5913 61.3022 48.6719 61.0447C48.8038 60.6394 48.9368 60.2344 49.0714 59.8297C49.6657 57.9964 49.8422 56.2699 49.8313 54.3754C49.8295 53.9997 49.8313 53.6241 49.8334 53.2485C49.835 51.8282 49.7476 50.4725 49.4471 49.0725C49.4047 48.8737 49.4047 48.8737 49.3615 48.671C48.4266 44.5899 46.1117 39.9176 42.2693 37.2342C41.8478 36.7828 41.8899 36.3776 41.9175 35.8248C41.9206 35.715 41.9237 35.6052 41.9269 35.4921C41.9345 35.2561 41.9437 35.0201 41.9546 34.7841C41.97 34.4363 41.9791 34.0888 41.9872 33.7409C42.0618 31.3635 42.4468 29.0137 42.8202 26.6604C42.8407 26.5256 42.8613 26.3908 42.8825 26.2519C44.0709 18.5087 47.2455 10.7498 51.1199 3.72773C51.2901 3.41707 51.4554 3.10503 51.6183 2.79146C53.7508 -1.17786 59.2638 1.61531 62.871 2.78345Z" fill="#78E7B1"/>
@@ -42,173 +103,56 @@
 </defs>
 </svg>
 
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('mainpage') }}">
-                        <span class="text-xl font-bold text-black-600">SpendWise</span>
-                        <span class="text-sm text-gray-500 ml-1">Expense Tracker</span>
-                    </a>
-                </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('expense.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ __('Expense') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link href="{{ route('budget.index') }}" :active="request()->routeIs('budget.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
-                        </svg>
-                        {{ __('Budget') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                        </svg>
-                        {{ __('Category') }}
-                    </x-nav-link>
-
-                    <x-nav-link href="{{ route('recurring-expense.index') }}" :active="request()->routeIs('recurring-expense.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
-                            <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                        </svg>
-                        {{ __('Recurring Expenses') }}
-                    </x-nav-link>
-
-                   
-                    <x-nav-link href="{{ route('report.expense') }}" :active="request()->routeIs('report.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        {{ __('Report') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link href="{{ route('contactus') }}" :active="request()->routeIs('contact')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        {{ __('Contact Us') }}
-                    </x-nav-link>
-                </div>
-              
-                
-            </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                            <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                            </button>
-                        @else
-                            <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                    {{ Auth::user()->name }}
-
-                                    <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-                            </span>
-                        @endif
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <!-- Account Management -->
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Manage Account') }}
-                        </div>
-
-                        <x-dropdown-link href="{{ route('profile.profile_form') }}">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <div class="border-t border-gray-200"></div>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}" x-data>
-                            @csrf
-
-                            <x-dropdown-link href="{{ route('logout') }}"
-                                     @click.prevent="$root.submit();">
-                                {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            
-                             
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
     </div>
+    <div class="text-sm font-bold mb-2">
+    <div style="font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 30px; text-align: center;">
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('expense.*')">
-                {{ __('Expense') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('budget.*')">
-                {{ __('Budget') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('category.*')">
-                {{ __('Category') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('report.expense') }}" :active="request()->routeIs('report.*')">
-                {{ __('Report') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('contact')">
-                {{ __('Contact Us') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="shrink-0 me-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                    </div>
-                @endif
-
-                <div>
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}" x-data>
-                    @csrf
-
-                    <x-responsive-nav-link href="{{ route('logout') }}"
-                               @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
-        </div>
+    SpentWise Expense Tracker
     </div>
-</nav>
+</div>
+
+  
+  <!-- Text and Button -->
+  <div class="text-center mt-4">
+  
+
+  
+  <!-- Add flexbox wrapper and gap -->
+  <div class="flex flex-col items-center gap-4">
+  <!-- Flex container for Login and Register buttons -->
+  <div class="flex gap-4">
+    <a href="{{ route('login') }}" class="btn-primary">Login</a>
+    <a href="{{ route('register') }}" class="btn-primary">Register</a>
+  </div>
+  
+  <div class="flex gap-4">
+    <!-- FB-->
+    <a href="https://www.facebook.com" target="_blank" class="facebook-link" style="margin-left: -20px;">
+      <svg width="100" height="100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.3337 24.5838C18.0234 24.2416 20.4819 22.888 22.2094 20.7982C23.937 18.7084 24.804 16.0392 24.6342 13.3331C24.4644 10.627 23.2706 8.08715 21.2953 6.22968C19.3201 4.3722 16.7117 3.33653 14.0003 3.33317C11.2856 3.33115 8.67226 4.36429 6.69278 6.22207C4.7133 8.07986 3.51665 10.6225 3.34665 13.3319C3.17665 16.0413 4.04611 18.7135 5.77785 20.8042C7.50959 22.8948 9.97331 24.2465 12.667 24.5838V16.6665H10.0003V13.9998H12.667V11.7945C12.667 10.0118 12.8537 9.36517 13.2003 8.71317C13.5418 8.06808 14.0696 7.54075 14.715 7.19984C15.2243 6.9265 15.8577 6.7625 16.9643 6.69184C17.403 6.66384 17.971 6.6985 18.6683 6.7985V9.33184H18.0003C16.7777 9.33184 16.2723 9.38917 15.971 9.5505C15.7912 9.64298 15.6448 9.78937 15.5523 9.96917C15.3923 10.2705 15.3337 10.5692 15.3337 11.7932V13.9998H18.667L18.0003 16.6665H15.3337V24.5838ZM14.0003 27.3332C6.63633 27.3332 0.666992 21.3638 0.666992 13.9998C0.666992 6.63584 6.63633 0.666504 14.0003 0.666504C21.3643 0.666504 27.3337 6.63584 27.3337 13.9998C27.3337 21.3638 21.3643 27.3332 14.0003 27.3332Z" fill="#3EB798"/>
+      </svg> 
+    </a>
+
+    <!-- IG -->
+    <a href="https://www.instagram.com" target="_blank"  style="margin-left: -70px;">
+      <svg width="30" height="30"  fill="none" xmlns="http://www.w3.org/2000/svg">
+         <path d="M16.0003 11.9998C14.9395 11.9998 13.922 12.4213 13.1719 13.1714C12.4218 13.9216 12.0003 14.939 12.0003 15.9998C12.0003 17.0607 12.4218 18.0781 13.1719 18.8283C13.922 19.5784 14.9395 19.9998 16.0003 19.9998C17.0612 19.9998 18.0786 19.5784 18.8288 18.8283C19.5789 18.0781 20.0003 17.0607 20.0003 15.9998C20.0003 14.939 19.5789 13.9216 18.8288 13.1714C18.0786 12.4213 17.0612 11.9998 16.0003 11.9998ZM16.0003 9.33317C17.7684 9.33317 19.4641 10.0355 20.7144 11.2858C21.9646 12.536 22.667 14.2317 22.667 15.9998C22.667 17.7679 21.9646 19.4636 20.7144 20.7139C19.4641 21.9641 17.7684 22.6665 16.0003 22.6665C14.2322 22.6665 12.5365 21.9641 11.2863 20.7139C10.036 19.4636 9.33366 17.7679 9.33366 15.9998C9.33366 14.2317 10.036 12.536 11.2863 11.2858C12.5365 10.0355 14.2322 9.33317 16.0003 9.33317V9.33317ZM24.667 8.99984C24.667 9.44186 24.4914 9.86579 24.1788 10.1783C23.8663 10.4909 23.4424 10.6665 23.0003 10.6665C22.5583 10.6665 22.1344 10.4909 21.8218 10.1783C21.5093 9.86579 21.3337 9.44186 21.3337 8.99984C21.3337 8.55781 21.5093 8.13389 21.8218 7.82133C22.1344 7.50877 22.5583 7.33317 23.0003 7.33317C23.4424 7.33317 23.8663 7.50877 24.1788 7.82133C24.4914 8.13389 24.667 8.55781 24.667 8.99984V8.99984ZM16.0003 5.33317C12.7017 5.33317 12.163 5.3425 10.6283 5.4105C9.58299 5.45984 8.88166 5.59984 8.23099 5.85317C7.65233 6.07717 7.23499 6.34517 6.79099 6.7905C6.37367 7.1937 6.0528 7.68595 5.85233 8.2305C5.59899 8.88384 5.45899 9.58384 5.41099 10.6278C5.34166 12.0998 5.33366 12.6145 5.33366 15.9998C5.33366 19.2985 5.34299 19.8372 5.41099 21.3718C5.46033 22.4158 5.60033 23.1185 5.85233 23.7678C6.07899 24.3478 6.34566 24.7652 6.78833 25.2078C7.23766 25.6558 7.65499 25.9238 8.22833 26.1452C8.88699 26.3998 9.58833 26.5412 10.6283 26.5892C12.1003 26.6585 12.615 26.6665 16.0003 26.6665C19.299 26.6665 19.8377 26.6572 21.3723 26.5892C22.415 26.5398 23.1177 26.3998 23.7683 26.1478C24.3457 25.9225 24.7657 25.6545 25.2083 25.2118C25.6577 24.7625 25.9257 24.3452 26.147 23.7718C26.4003 23.1145 26.5417 22.4118 26.5897 21.3718C26.659 19.8998 26.667 19.3852 26.667 15.9998C26.667 12.7012 26.6577 12.1625 26.5897 10.6278C26.5403 9.58517 26.4003 8.88117 26.147 8.2305C25.9461 7.68651 25.6258 7.19445 25.2097 6.7905C24.8066 6.37297 24.3143 6.05206 23.7697 5.85184C23.1163 5.5985 22.415 5.4585 21.3723 5.4105C19.9003 5.34117 19.3857 5.33317 16.0003 5.33317ZM16.0003 2.6665C19.623 2.6665 20.075 2.67984 21.4963 2.7465C22.9163 2.81317 23.883 3.03584 24.7337 3.3665C25.6137 3.70517 26.355 4.16384 27.0963 4.90384C27.7743 5.57037 28.2989 6.37662 28.6337 7.2665C28.963 8.11584 29.187 9.08384 29.2537 10.5038C29.3163 11.9252 29.3337 12.3772 29.3337 15.9998C29.3337 19.6225 29.3203 20.0745 29.2537 21.4958C29.187 22.9158 28.963 23.8825 28.6337 24.7332C28.2999 25.6235 27.7752 26.43 27.0963 27.0958C26.4296 27.7736 25.6234 28.2982 24.7337 28.6332C23.8843 28.9625 22.9163 29.1865 21.4963 29.2532C20.075 29.3158 19.623 29.3332 16.0003 29.3332C12.3777 29.3332 11.9257 29.3198 10.5043 29.2532C9.08433 29.1865 8.11766 28.9625 7.26699 28.6332C6.37676 28.2991 5.57036 27.7744 4.90433 27.0958C4.2262 26.4294 3.70157 25.6231 3.36699 24.7332C3.03633 23.8838 2.81366 22.9158 2.74699 21.4958C2.68433 20.0745 2.66699 19.6225 2.66699 15.9998C2.66699 12.3772 2.68033 11.9252 2.74699 10.5038C2.81366 9.0825 3.03633 8.11717 3.36699 7.2665C3.70064 6.37608 4.2254 5.5696 4.90433 4.90384C5.57055 4.22548 6.3769 3.70081 7.26699 3.3665C8.11766 3.03584 9.08299 2.81317 10.5043 2.7465C11.9257 2.68384 12.3777 2.6665 16.0003 2.6665Z" fill="#3EB798"/>
+
+         </svg>
+    </a>
+    <!-- Tweet -->
+    <a href="https://x.com/?lang=en-my" target="_blank"  style="margin-left: 5px;">
+        <svg width="30" height="30"  fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.4004 7.39983C19.387 7.39966 18.414 7.79732 17.6909 8.50725C16.9677 9.21718 16.5522 10.1826 16.5337 11.1958L16.4964 13.2958C16.4942 13.4086 16.4682 13.5196 16.4201 13.6216C16.372 13.7236 16.3028 13.8143 16.2172 13.8877C16.1316 13.9611 16.0314 14.0155 15.9233 14.0475C15.8151 14.0795 15.7014 14.0882 15.5897 14.0732L13.5084 13.7905C10.7697 13.4172 8.14569 12.1558 5.62835 10.0585C4.83102 14.4718 6.38835 17.5292 10.139 19.8878L12.4684 21.3518C12.579 21.4214 12.671 21.517 12.7361 21.6303C12.8013 21.7436 12.8377 21.8712 12.8422 22.0018C12.8467 22.1324 12.8191 22.2622 12.7618 22.3797C12.7045 22.4972 12.6193 22.5989 12.5137 22.6758L10.391 24.2265C11.6537 24.3052 12.8524 24.2492 13.847 24.0518C20.1377 22.7958 24.3204 18.0625 24.3204 10.2545C24.3204 9.61716 22.971 7.39983 20.4004 7.39983ZM13.867 11.1465C13.8903 9.86123 14.2922 8.61139 15.0224 7.55346C15.7527 6.49553 16.7788 5.67652 17.9722 5.19898C19.1657 4.72145 20.4736 4.6066 21.732 4.86882C22.9905 5.13105 24.1436 5.75869 25.047 6.67316C25.995 6.66649 26.8017 6.90649 28.6057 5.81316C28.159 7.99983 27.939 8.94916 26.987 10.2545C26.987 20.4438 20.7244 25.3985 14.3697 26.6665C10.0124 27.5358 3.67635 26.1078 1.86035 24.2118C2.78568 24.1398 6.54568 23.7358 8.71902 22.1452C6.88035 20.9332 -0.438315 16.6265 4.37102 5.04783C6.62835 7.68383 8.91769 9.47849 11.2377 10.4305C12.7817 11.0638 13.1604 11.0505 13.8684 11.1478L13.867 11.1465Z" fill="#3EB798"/>
+        
+
+            </svg>
+    </a>    
+
+</div> </div>
+
+  
+
+</body>
+</html>

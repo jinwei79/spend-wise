@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('budgets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('category_id')->nullable()->constrained();
+            $table->unsignedBigInteger('category_id')->nullable();
+            $table->foreign('category_id')->references('id')->on('expense_categories')->onDelete('cascade');
+            // $table->foreignId('category_id')->nullable()->constrained();
             $table->tinyInteger('month');
             $table->integer('year');
             $table->double('amount', 8, 2);

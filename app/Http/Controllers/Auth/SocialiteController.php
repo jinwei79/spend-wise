@@ -19,12 +19,16 @@ class SocialiteController extends Controller
     {
         $googleUser = Socialite::driver('google')->stateless()->user();
 
-        $user = User::firstOrCreate(
+        // Log the Google Avatar URL
+        \Log::info('Google Avatar: ' . $googleUser->getAvatar());
+
+        $user = User::updateOrCreate(
             ['email' => $googleUser->getEmail()],
             [
                 'name' => $googleUser->getName(),
                 'email_verified_at' => now(),
                 'password' => bcrypt(Str::random(24)), // random password
+                'profile_photo_path' => $googleUser->getAvatar(),                
             ]
         );
 

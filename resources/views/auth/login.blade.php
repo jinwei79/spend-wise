@@ -7,6 +7,7 @@
 
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
+                    <h1 style="font-size: 35px; font-weight: bold;">Log In</h1><br/>
 
                     <div>
                         <x-label for="username" value="{{ __('Username') }}" />
@@ -45,7 +46,8 @@
                             </a>
                         @endif
                     </div>
-                    <a href="{{ url('/auth/google/redirect') }}" class="btn btn-google mt-4 w-full inline-flex items-center justify-center px-4 py-4 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 transition ease-in-out duration-150">
+                    <a href="{{ url('/auth/google/redirect') }}" class="mt-4 w-full inline-flex items-center justify-center px-4 py-4 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 dark:hover:bg-white focus:bg-gray-700 dark:focus:bg-white active:bg-gray-900 dark:active:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 disabled:opacity-50 transition ease-in-out duration-150 gap-4">
+                        <img src="{{ asset('images/google-logo2.png') }}" alt="Google logo" class="w-10 h-6 bg-transparent">
                         {{ __('Sign in with Google') }}
                     </a>
                 </form>

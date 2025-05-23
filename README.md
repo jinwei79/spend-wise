@@ -54,19 +54,19 @@ Milestones and feedback loops are incorporated to ensure timely delivery and qua
 ## 🧪 Setup Instructions
 
 1. **Clone the Repository**
-      ```bash
+   ```bash
    git clone https://github.com/faizalrazak/spend-wise.git
    cd spend-wise
 
 
 2. **Install Dependencies**
-      ```bash
+   ```bash
    composer install
    npm install && npm run dev
 
 
 3. **Environment Setup**
-      ```bash
+   ```bash
    cp .env.example .env
    php artisan key:generate
 
