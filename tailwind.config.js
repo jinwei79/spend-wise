@@ -9,9 +9,9 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-        './src/**/*.{html,js,ts,jsx,tsx}', 
+        './src/**/*.{html,js,ts,jsx,tsx}',
     ],
-    darkMode: 'class', 
+    darkMode: 'class',
 
     theme: {
         extend: {
@@ -20,11 +20,11 @@ export default {
             },
             colors: {
                 primary: 'rgba(85, 208, 64, 0.25)',
-            
+
               },
-           
+
         },
-        
+
     },
 
     plugins: [forms, typography],

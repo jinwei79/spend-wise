@@ -12,6 +12,7 @@ use App\Livewire\Expense\Category\View as CategoryView;
 use App\Livewire\Budget\Index as BudgetIndex;
 use App\Livewire\Budget\Edit as BudgetEdit;
 use App\Livewire\Budget\View as BudgetView;
+use App\Livewire\Chatbot;
 use App\Livewire\Report\ExpenseReport;
 use App\Services\GroqService;
 use Illuminate\Support\Facades\Route;
@@ -72,6 +73,8 @@ Route::middleware([
         return view('mainpage');
     })->name('dashboard');
 
+    Route::get('/chatbot', Chatbot::class)->name('chatbot');
+
     Route::get('/profile', function () {
         $user = Auth::user(); // Get currently logged-in user
         return view('profile.profile_form', compact('user')); // Pass it to the view
@@ -79,7 +82,7 @@ Route::middleware([
 
     Route::put('/profile', function (Request $request) {
         $user = Auth::user();  // Get the currently logged-in user
-    
+
         // Validate input including file
         $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
@@ -99,13 +102,13 @@ Route::middleware([
             $path = $request->file('photo')->store('profile-photos', 'public');
             $validatedData['profile_photo_path'] = $path;
         }
-    
+
         // Update the user profile
         $user->update($validatedData);
-    
+
         // Optionally add a success message or redirect
         return redirect()->route('profile.profile_form')->with('message', 'Profile updated successfully!');
-    })->name('profile.update'); 
+    })->name('profile.update');
 
 
 
