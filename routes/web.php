@@ -20,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
     // return view('welcome');
@@ -36,9 +37,9 @@ Route::get('/welcome', function () {
 })->name('welcome');
 
 
-Route::get('/mainpage', function () {
-    return view('mainpage');
-})->name('mainpage');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 Route::get('/contactus', function () {
     return view('contactus');
 })->name('contactus');
@@ -69,7 +70,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('mainpage');
+        return view('dashboard');
     })->name('dashboard');
 
     Route::get('/profile', function () {
@@ -140,6 +141,12 @@ Route::middleware([
 
     Route::get('edit/{id}', Edit::class)->name('expense.edit');
     Route::get('/report/expense', ExpenseReport::class)->name('report.expense');
+});
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::get('/test-groq', function () {

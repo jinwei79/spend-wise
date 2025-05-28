@@ -1,10 +1,9 @@
-<nav x-data="{ open: false }" class="border-b border-gray-200">
-    <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <svg width="87" height="60" viewBox="0 0 87 75" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<nav style="background-color:rgb(159, 232, 179) !important;" class="border-r border-gray-200 h-screen w-64 fixed top-0 left-0 overflow-y-auto flex flex-col justify-between">
+    <div>
+        <div class="px-6 py-4">
+            <!-- Logo -->
+            <svg width="87" height="60" viewBox="0 0 87 75" fill="none" xmlns="http://www.w3.org/2000/svg">
 <g clip-path="url(#clip0_444_3217)">
 <path d="M57.7947 0.49455C58.0785 0.573521 58.0785 0.573521 58.3679 0.654088C58.9645 0.822486 59.5587 0.99622 60.1524 1.17204C60.4361 1.25549 60.4361 1.25549 60.7255 1.34063C69.31 3.89605 77.5503 7.86555 84.2514 13.186C84.6111 13.4689 84.9809 13.7381 85.3539 14.0077C86.2077 14.6484 86.8948 15.3504 87.0644 16.344C87.1604 17.7469 86.6195 18.6948 85.8544 19.8804C81.4322 26.8034 78.8192 34.5282 77.5344 42.3247C77.4881 42.605 77.4401 42.885 77.3921 43.1651C76.2987 49.7912 76.6925 56.8034 78.0577 63.3759C78.6969 66.5064 78.6969 66.5064 77.8243 67.6759C76.7774 68.6719 75.5472 69.2262 74.1391 69.7633C73.9297 69.8448 73.7203 69.9263 73.511 70.0079C72.8557 70.2613 72.1972 70.508 71.5371 70.7521C71.4318 70.7911 71.3265 70.83 71.2179 70.8702C67.0918 72.3892 62.87 73.6397 58.5169 74.579C58.2226 74.644 58.2226 74.644 57.9224 74.7102C56.0571 75.0937 54.2766 75.1094 52.3997 74.7804C52.1762 74.7421 52.1762 74.7421 51.9481 74.703C48.83 74.1396 45.8128 73.2781 42.8733 72.226C42.6138 72.1352 42.6138 72.1352 42.3491 72.0424C42.1976 71.9878 42.0462 71.9331 41.8902 71.8767C41.3876 71.7605 41.1052 71.7911 40.6114 71.924C40.2178 72.1421 39.8424 72.3651 39.4644 72.6015C36.8133 74.1854 33.6812 75.0072 30.4502 75.0238C30.1157 75.0259 30.1157 75.0259 29.7744 75.028C29.5334 75.0287 29.2924 75.0294 29.0514 75.0299C28.9282 75.0303 28.805 75.0308 28.678 75.0312C28.025 75.0334 27.3721 75.0347 26.7191 75.0354C26.0521 75.0362 25.3851 75.0397 24.7182 75.0438C24.1988 75.0466 23.6795 75.0473 23.1602 75.0476C22.9147 75.048 22.6693 75.0492 22.4238 75.0511C17.6086 75.0866 13.3677 73.5545 9.8555 70.7521C9.71992 70.6471 9.58433 70.5421 9.44464 70.434C4.95817 66.7922 2.26536 60.862 2.01524 55.602C1.86919 50.5215 2.5937 45.5916 5.83114 41.208C5.89499 41.1215 5.95884 41.035 6.02463 40.9458C6.2006 40.7116 6.38208 40.4805 6.56393 40.2496C6.84489 39.7604 6.78844 39.6268 6.62699 39.1115C6.51434 38.8501 6.39372 38.5911 6.26723 38.3344C6.19307 38.1819 6.11891 38.0293 6.04251 37.8721C5.96202 37.707 5.88154 37.542 5.79862 37.372C3.96419 33.5385 2.4701 29.6308 1.18949 25.6349C1.14235 25.4885 1.14235 25.4885 1.09426 25.3392C0.886246 24.6914 0.685483 24.0422 0.488557 23.3919C0.438342 23.2314 0.388128 23.071 0.336391 22.9057C-0.0270634 21.6642 -0.353606 20.1988 0.254915 18.979C1.05766 17.8279 2.57908 17.3242 3.96134 16.8459C4.14114 16.7828 4.32094 16.7197 4.5062 16.6546C9.945 14.7749 15.5502 13.9211 21.4102 14.0627C21.4082 13.9224 21.4062 13.7821 21.4042 13.6375C21.3516 8.37987 21.3516 8.37987 22.5153 7.02741C23.6676 6.08478 25.3735 5.91155 26.8795 5.7039C27.0592 5.67912 27.2389 5.65433 27.4241 5.6288C34.6406 4.66398 41.668 5.06263 48.7676 6.44548C48.8189 6.34818 48.8702 6.25089 48.923 6.15065C49.4157 5.21699 49.9119 4.28479 50.411 3.35364C50.5903 3.01712 50.7663 2.6797 50.9401 2.34105C51.4416 1.40285 52.0026 0.722051 53.0157 0.14665C54.5995 -0.308463 56.2649 0.0536703 57.7947 0.49455Z" fill="#EACF59"/>
 <path d="M62.871 2.78345C65.1292 3.56415 67.3428 4.44708 69.5006 5.41595C69.8682 5.58027 70.2376 5.74138 70.607 5.90253C75.265 7.95279 79.5596 10.5851 83.4872 13.5553C83.7631 13.7636 84.041 13.9698 84.3189 14.176C84.4852 14.3018 84.6514 14.4276 84.8227 14.5571C84.9688 14.667 85.1149 14.7769 85.2655 14.8902C86.037 15.5988 86.2845 16.2996 86.2531 17.2505C86.0541 18.1682 85.4985 18.9564 84.9812 19.7677C82.3256 23.9661 80.2106 28.4698 78.8436 33.1057C78.7955 33.2679 78.7473 33.43 78.6977 33.5971C77.5468 37.5076 76.7862 41.4023 76.2948 45.4104C76.2764 45.5548 76.258 45.6992 76.2391 45.848C76.0503 47.5784 76.091 49.323 76.093 51.0592C76.0932 51.2333 76.0933 51.4074 76.0935 51.5868C76.1021 55.9546 76.2353 60.4835 77.4842 64.7463C77.5629 65.6065 77.6315 66.3826 77.1975 67.1725C76.3038 67.9845 75.3116 68.4151 74.1495 68.8845C73.9751 68.9555 73.8008 69.0265 73.6211 69.0996C70.8768 70.2082 68.077 71.1644 65.2314 72.0618C64.9183 72.1607 64.6056 72.2603 64.2933 72.3608C62.6159 72.9004 60.9325 73.3572 59.1964 73.7368C58.9457 73.792 58.9457 73.792 58.6899 73.8482C57.6504 74.0669 56.6317 74.2027 55.5643 74.2678C53.4602 71.7742 51.5866 69.2075 49.9463 66.4675C49.8919 66.3768 49.8376 66.286 49.7816 66.1925C49.5267 65.7651 49.2754 65.3365 49.0282 64.9057C48.8683 64.6283 48.7037 64.3529 48.5312 64.0811C48.1041 63.3703 48.0325 62.9334 48.2962 62.1626C48.3395 62.0484 48.3829 61.9343 48.4276 61.8166C48.5099 61.5596 48.5913 61.3022 48.6719 61.0447C48.8038 60.6394 48.9368 60.2344 49.0714 59.8297C49.6657 57.9964 49.8422 56.2699 49.8313 54.3754C49.8295 53.9997 49.8313 53.6241 49.8334 53.2485C49.835 51.8282 49.7476 50.4725 49.4471 49.0725C49.4047 48.8737 49.4047 48.8737 49.3615 48.671C48.4266 44.5899 46.1117 39.9176 42.2693 37.2342C41.8478 36.7828 41.8899 36.3776 41.9175 35.8248C41.9206 35.715 41.9237 35.6052 41.9269 35.4921C41.9345 35.2561 41.9437 35.0201 41.9546 34.7841C41.97 34.4363 41.9791 34.0888 41.9872 33.7409C42.0618 31.3635 42.4468 29.0137 42.8202 26.6604C42.8407 26.5256 42.8613 26.3908 42.8825 26.2519C44.0709 18.5087 47.2455 10.7498 51.1199 3.72773C51.2901 3.41707 51.4554 3.10503 51.6183 2.79146C53.7508 -1.17786 59.2638 1.61531 62.871 2.78345Z" fill="#78E7B1"/>
@@ -42,173 +41,101 @@
 </defs>
 </svg>
 
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('mainpage') }}">
-                        <span class="text-xl font-bold text-black-600">SpendWise</span>
-                        <span class="text-sm text-gray-500 ml-1">Expense Tracker</span>
-                    </a>
-                </div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('expense.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ __('Expense') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link href="{{ route('budget.index') }}" :active="request()->routeIs('budget.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
-                        </svg>
-                        {{ __('Budget') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link href="{{ route('category.index') }}" :active="request()->routeIs('category.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                        </svg>
-                        {{ __('Category') }}
-                    </x-nav-link>
+            <a href="{{ route('dashboard') }}" class="block mb-8">
+            <div class="font-sans font-extrabold text-2xl text-black">SpendWise</div>
+            <span class="block text-2xl font-bold text-gray-600">Expense Tracker</span>
 
-                    <x-nav-link href="{{ route('recurring-expense.index') }}" :active="request()->routeIs('recurring-expense.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
-                            <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
-                        </svg>
-                        {{ __('Recurring Expenses') }}
-                    </x-nav-link>
+            </a>
 
-                   
-                    <x-nav-link href="{{ route('report.expense') }}" :active="request()->routeIs('report.*')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        {{ __('Report') }}
-                    </x-nav-link>
-                    
-                    <x-nav-link href="{{ route('contactus') }}" :active="request()->routeIs('contact')" class="flex items-center">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        {{ __('Contact Us') }}
-                    </x-nav-link>
-                </div>
+            <!-- Navigation Links -->
+            <div class="space-y-4">
+            <a href="{{ route('expense.index') }}"
+            class="flex items-center px-3 py-2 rounded 
+          {{ request()->routeIs('expense.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Expense
+                </a>
+
+                <a href="{{ route('budget.index') }}"
+   class="flex items-center px-3 py-2 rounded 
+          {{ request()->routeIs('budget.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
+
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                    </svg>
+                    Budget
+                </a>
+
+                <a href="{{ route('category.index') }}"
+   class="flex items-center px-3 py-2 rounded 
+          {{ request()->routeIs('category.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+                    Category
+                </a>
+                <a href="{{ route('recurring-expense.index') }}"
+                    class="flex items-center px-3 py-2 rounded 
+                    {{ request()->routeIs('recurring-expense.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              
+                        <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
+                    </svg>
+                    Recurring Expenses
+                </a>
+
+
+                <a href="{{ route('report.expense') }}"
+                    class="flex items-center px-3 py-2 rounded 
+                    {{ request()->routeIs('report.expense') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
+              
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Report
+                </a>
+
+                <a href="{{ route('contactus') }}"
+                    class="flex items-center px-3 py-2 rounded 
+                    {{ request()->routeIs('contactus') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
               
                 
-            </div>
-
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                            <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                            </button>
-                        @else
-                            <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                    {{ Auth::user()->name }}
-
-                                    <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-                            </span>
-                        @endif
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <!-- Account Management -->
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Manage Account') }}
-                        </div>
-
-                        <x-dropdown-link href="{{ route('profile.profile_form') }}">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <div class="border-t border-gray-200"></div>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}" x-data>
-                            @csrf
-
-                            <x-dropdown-link href="{{ route('logout') }}"
-                                     @click.prevent="$root.submit();">
-                                {{ __('Log Out') }}
-                                </x-dropdown-link>
-                            
-                             
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
-                </button>
+                    Contact Us
+                </a>
             </div>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('expense.index') }}" :active="request()->routeIs('expense.*')">
-                {{ __('Expense') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('budget.*')">
-                {{ __('Budget') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('category.*')">
-                {{ __('Category') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('report.expense') }}" :active="request()->routeIs('report.*')">
-                {{ __('Report') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('contact')">
-                {{ __('Contact Us') }}
-            </x-responsive-nav-link>
+    <!-- User Profile and Logout -->
+    <div class="px-6 py-4 border-t border-gray-200 bg-green-200">
+        <div class="flex items-center space-x-3">
+            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
+                <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+            @endif
+            <div>
+                <div class="font-medium text-gray-800">{{ Auth::user()->name }}</div>
+                <div class="text-sm text-gray-600">{{ Auth::user()->email }}</div>
+            </div>
         </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="flex items-center px-4">
-                @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="shrink-0 me-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                    </div>
-                @endif
-
-                <div>
-                    <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                    <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-                </div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}" x-data>
-                    @csrf
-
-                    <x-responsive-nav-link href="{{ route('logout') }}"
-                               @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </form>
-            </div>
+        <div class="mt-3 space-y-1">
+            <a href="{{ route('profile.profile_form') }}" class="block text-gray-700 hover:text-green-700">Profile</a>
+            <form method="POST" action="{{ route('logout') }}" class="mt-1">
+                @csrf
+                <button type="submit" class="w-full text-left text-gray-700 hover:text-green-700">Log Out</button>
+            </form>
         </div>
     </div>
 </nav>

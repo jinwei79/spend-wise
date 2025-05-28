@@ -1,6 +1,9 @@
 <div class="p-4 mt-10">
-    <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold">Category Detail</h2>
+<div style="font-family: 'Poppins', sans-serif; font-weight: bold; font-size: 50px; text-align: center;">
+    <div style="display: inline-block; margin-right: auto; transform: translateX(-100%) translateY(-35px);">
+    Category Detail
+
+    </div>
     </div>
 
     <div class="max-w-md mx-auto rounded">

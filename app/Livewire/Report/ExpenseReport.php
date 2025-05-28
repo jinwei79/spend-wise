@@ -24,11 +24,11 @@ class ExpenseReport extends Component
     public function updatedTimeframe()
     {
         \Log::info('Updated Timeframe: ' . $this->timeframe); 
-        $this->loadExpenses();
-        $this->prepareChartData();
-    
-        $this->dispatch('chartUpdated', $this->chartData); 
+    $this->loadExpenses();
+    $this->prepareChartData();
+    $this->dispatch('chartUpdated', $this->chartData);
     }
+    
     private function loadExpenses()
     {
         $query = Expense::with('category')
