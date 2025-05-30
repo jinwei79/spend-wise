@@ -42,7 +42,12 @@
 
             <!-- Page Content -->
             <main>
+                @auth
+                    @livewire('budget.budget-alert')
+                @endauth
+
                 {{ $slot }}
+
                 @if (isset($form))
                     <div class="flex justify-center items-start min-h-screen px-4 mx-auto">
                         <div class="w-full max-w-2xl p-6 mx-auto">

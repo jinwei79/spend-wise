@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Expense;
 
+use App\Models\Budget;
 use App\Models\Expense;
 use App\Models\RecurringExpense;
+use Carbon\Carbon;
 use App\Services\GroqService;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -13,6 +15,7 @@ class Create extends Component
 
     protected $groqService;
     public $categories;
+    public $remainingBudgets;
 
     public $expenses = [
         [
@@ -29,11 +32,49 @@ class Create extends Component
         $this->groqService = new GroqService();
         $this->categories = \App\Models\ExpenseCategory::all();
         $this->expenses[0]['date'] = date('Y-m-d');
+
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        $budgets = Budget::where('user_id', auth()->id())
+            ->where('month', $currentMonth)
+            ->where('year', $currentYear)
+            ->get();
+        $expenses = Expense::whereMonth('date', $currentMonth)
+            ->whereYear('date', $currentYear)
+            ->where('user_id', auth()->id())
+            ->get();
+        $expenseSums = $expenses->groupBy('expense_category_id')->map(function ($group) {
+            return $group->sum('amount');
+        });
+        foreach ($budgets as $budget) {
+            if ($budget->category_id != 0) {
+                $spent = $expenseSums[$budget->category_id] ?? 0;
+                $this->remainingBudgets[] = [
+                    'category' => $budget->category->name,
+                    'color_code' => $budget->category->color_code,
+                    'budget' => $budget->amount,
+                    'spent' => $spent,
+                    'remaining' => $budget->amount - $spent,
+                ];
+            } else {
+                $totalSpent = 0;
+                foreach ($expenses as $expense) {
+                    $totalSpent += $expense->amount;
+                }
+                $this->remainingBudgets[] = [
+                    'category' => 'All',
+                    'color_code' => '#ffffff',
+                    'budget' => $budget->amount,
+                    'spent' => $totalSpent,
+                    'remaining' => $budget->amount - $totalSpent,
+                ];
+            }
+        }
     }
 
     public function render()
     {
-        return view('livewire.expense.create')->layout('layouts.app');;
+        return view('livewire.expense.create')->layout('layouts.app');
     }
 
     public function save()
