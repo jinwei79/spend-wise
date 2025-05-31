@@ -21,8 +21,8 @@ class BudgetAlert extends Component
         foreach ($budgets as $budget) {
             if ($budget->category_id != 0) {
                 $spent = Expense::where('expense_category_id', $budget->category_id)
-                    ->whereMonth('created_at', $budget->month)
-                    ->whereYear('created_at', $budget->year)
+                    ->whereMonth('date', $budget->month)
+                    ->whereYear('date', $budget->year)
                     ->sum('amount');
 
                 if ($spent >= $budget->amount * 0.9) { // 90% threshold
@@ -34,8 +34,8 @@ class BudgetAlert extends Component
         // TO CATER BUDGET FOR ALL CATEGORY
         foreach ($budgets as $budget) {
             if ($budget->category_id == 0) {
-                $totalSpent = Expense::whereMonth('created_at', $budget->month)
-                    ->whereYear('created_at', $budget->year)
+                $totalSpent = Expense::whereMonth('date', $budget->month)
+                    ->whereYear('date', $budget->year)
                     ->sum('amount');
 
                 if ($totalSpent >= $budget->amount * 0.9) { // 90% threshold

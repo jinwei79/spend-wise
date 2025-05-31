@@ -1,20 +1,20 @@
 <div class="container mx-auto mt-8">
 
-    <div class="mt-8 mb-8">
+    <div class="mt-8 mb-8 ml-5">
         @if(!empty($remainingBudgets))
-            <p class="text-white mt-4 mb-2">Remaining budget this month:</p>
+            <p class="text-black mt-4 mb-2">Remaining budget this month:</p>
         @endif
         <div class="gap-4 grid grid-cols-1 grid-cols-6">
             @foreach ($remainingBudgets as $budget)
-                <div class="flex items-center justify-between" style="border-bottom: 1px solid white">
+                <div class="flex items-center justify-between" style="border-bottom: 1px solid #16a34a">
                     <div class="flex items-center gap-3">
                         <div class="w-3 h-3 rounded-full" style="background-color: {{ $budget['color_code'] }}"></div>
                         <div>
-                            <div class="font-medium text-white truncate" style="width: 80px" title="{{ $budget['category'] }}">{{ $budget['category'] }}</div>
+                            <div class="font-medium text-black truncate" style="width: 80px" title="{{ $budget['category'] }}">{{ $budget['category'] }}</div>
                         </div>
                     </div>
 
-                    <div class="text-right {{ number_format($budget['remaining'], 2) < 0 ? 'text-red-500' : 'text-white' }}">
+                    <div class="text-right {{ number_format($budget['remaining'], 2) < 0 ? 'text-red-500' : 'text-black' }}">
                         RM {{ number_format($budget['remaining'], 2)  }}
                     </div>
                 </div>
