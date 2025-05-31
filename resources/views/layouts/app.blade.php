@@ -41,7 +41,8 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="ml-64 flex-1 h-screen overflow-y-auto">
+
                 {{ $slot }}
                 @if (isset($form))
                     <div class="flex justify-center items-start min-h-screen px-4 mx-auto">
