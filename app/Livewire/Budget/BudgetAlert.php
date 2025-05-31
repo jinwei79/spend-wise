@@ -17,7 +17,7 @@ class BudgetAlert extends Component
         $user = Auth::user();
         if (!$user) return;
 
-        $budgets = Budget::where('user_id', auth()->id())->get();
+        $budgets = Budget::where('user_id', auth()->id())->where('month',now()->month)->get();
         foreach ($budgets as $budget) {
             if ($budget->category_id != 0) {
                 $spent = Expense::where('expense_category_id', $budget->category_id)

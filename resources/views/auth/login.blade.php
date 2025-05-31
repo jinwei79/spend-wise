@@ -3,8 +3,8 @@
         <!-- Left Section -->
         <div class="flex flex-col justify-center items-center h-full px-6">
             <div class="w-full max-w-md text-center">
-                <h1 class="text-4xl font-bold text-white mb-6">Welcome Back</h1>
-                <p class="text-gray-200 mb-10">Sign in securely with your Google account</p>
+                <h1 class="text-4xl font-bold text-black mb-6">Welcome Back</h1>
+                <p class="text-black-200 mb-10">Sign in securely with your Google account</p>
 
                 <!-- Google Sign-In Button -->
                 <a href="{{ url('/auth/google/redirect') }}"

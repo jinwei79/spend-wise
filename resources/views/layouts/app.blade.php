@@ -61,5 +61,6 @@
         @stack('modals')
 
         @livewireScripts  <!-- Place this here -->
+        <livewire:chatbot />
     </body>
 </html>
