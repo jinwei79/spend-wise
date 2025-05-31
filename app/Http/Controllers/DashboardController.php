@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
         // Calculate summary stats
         $totalExpenses = $expenses->sum('amount');
-        
+
         $monthlyRecurring = $expenses
             ->where('is_recurring', true)
             ->whereBetween('date', [now()->startOfMonth(), now()->endOfMonth()])
@@ -47,7 +47,7 @@ class DashboardController extends Controller
             ->get();
 
         // --- Charts for CURRENT USER ---
-        
+
         // 1. Current user's budgets by category (vertical bar chart)
         $userBudgetsByCategory = Budget::where('user_id', $userId)
             ->selectRaw('category_id, SUM(amount) as total')
@@ -78,8 +78,8 @@ class DashboardController extends Controller
             'topCategory' => $topCategory,
             'categorySummary' => $categorySummaryFormatted,
             'recentExpenses' => $recentExpenses,
-            'monthlyBudgetChart' => $monthlyBudgetChart,      
-            'categoryExpenseChart' => $categoryExpenseChart,    
+            'monthlyBudgetChart' => $monthlyBudgetChart,
+            'categoryExpenseChart' => $categoryExpenseChart,
         ]);
     }
 }

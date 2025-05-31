@@ -1,6 +1,9 @@
-<div class="p-4 mt-10">
+<div class="p-6 max-w-7xl mx-auto">
     <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold">My Budget</h2>
+        <div>
+            <h2 class="text-3xl font-bold text-gray-900">My Budget</h2>
+            <p class="text-gray-500 mt-1">Track and manage your budget</p>
+        </div>
         <a href="{{ route('budget.create') }}" class="btn-primary text-white px-4 py-2 rounded">Add Budget</a>
     </div>
 
@@ -51,9 +54,9 @@
                     </p>
                 </div>
                 <div class="text-right">
-                <span class="text-lg font-bold text-gray-800">
-                    RM {{ number_format($budget->amount, 2) }}
-                </span>
+                    <span class="text-lg font-bold text-gray-800">
+                        RM {{ number_format($budget->amount, 2) }}
+                    </span>
                 </div>
             </a>
         @endforeach

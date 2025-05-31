@@ -24,7 +24,7 @@ body {
     isolation: isolate;
     overflow: hidden;
     min-height: 100vh;
-    padding: 2rem;
+    /* padding: 2rem; */
     background-color: #f9fafb; /* fallback bg */
   }
 
@@ -147,3 +147,59 @@ body {
   }
 
 
+
+.budget-main-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    gap: 5%;
+    max-width: 700px;
+    margin: 20px auto 3rem auto;
+    padding: 16px;
+}
+
+.budget-main-card img {
+    width: 100px;
+    height: 100px;
+}
+
+.budget-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    gap: 5%;
+}
+
+.budget-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.budget-amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.budget-label {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.budget-balance {
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.budget-filter select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}

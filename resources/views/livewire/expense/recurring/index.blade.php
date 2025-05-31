@@ -1,4 +1,4 @@
-<div class="container mx-auto mt-8">
+<div class="p-6 max-w-7xl mx-auto">
     <div class="w-1/2 mx-auto mt-5 text-center">
         @if (session()->has('message'))
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-3" role="alert">
@@ -11,16 +11,20 @@
             </div>
         @endif
     </div>
+    <div class="flex items-center justify-between mb-4">
+        <div>
+            <h2 class="text-3xl font-bold text-gray-900">My Expense Calendar</h2>
+            <p class="text-gray-500 mt-1">View your expenses based on date</p>
+        </div>
+        <a href="{{ route('recurring-expense.create') }}" class="btn-primary text-white px-4 py-2 rounded">
+            {{ __('Add Recurring Expense') }} <i class="fa fa-plus"></i>
+        </a>
+    </div>
     @if($recurringExpenses->isEmpty())
         <div class="w-1/2 mx-auto mt-5 text-center">
             <p class="text-lg font-semibold text-gray-600 dark:text-gray-300">No data available for this date.</p>
         </div>
     @endif
-    <div class="w-1/2 mx-auto mt-5 text-end">
-        <a class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" href="{{ route('recurring-expense.create') }}">
-            Add Recurring Expense <i class="fa fa-plus"></i>
-        </a>
-    </div>
 
     @foreach($recurringExpenses as $index => $expense)
         <div class="bg-white dark:bg-gray-800 shadow rounded-lg grid grid-cols-5 gap-2 w-1/2 mx-auto p-4 mt-3" wire:click="showExpense({{ $expense->id }})">

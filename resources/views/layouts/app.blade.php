@@ -41,7 +41,7 @@
             @endif
 
             <!-- Page Content -->
-            <main>
+            <main class="ml-64 flex-1 h-screen overflow-y-auto">
                 @auth
                     @livewire('budget.budget-alert')
                 @endauth

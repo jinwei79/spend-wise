@@ -51,7 +51,7 @@
             <!-- Navigation Links -->
             <div class="space-y-4">
             <a href="{{ route('expense.index') }}"
-            class="flex items-center px-3 py-2 rounded 
+            class="flex items-center px-3 py-2 rounded
           {{ request()->routeIs('expense.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -61,7 +61,7 @@
                 </a>
 
                 <a href="{{ route('budget.index') }}"
-   class="flex items-center px-3 py-2 rounded 
+   class="flex items-center px-3 py-2 rounded
           {{ request()->routeIs('budget.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
 
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@
                 </a>
 
                 <a href="{{ route('category.index') }}"
-   class="flex items-center px-3 py-2 rounded 
+   class="flex items-center px-3 py-2 rounded
           {{ request()->routeIs('category.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -81,10 +81,10 @@
                     Category
                 </a>
                 <a href="{{ route('recurring-expense.index') }}"
-                    class="flex items-center px-3 py-2 rounded 
+                    class="flex items-center px-3 py-2 rounded
                     {{ request()->routeIs('recurring-expense.index') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              
+
                         <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" />
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2" />
                     </svg>
@@ -93,9 +93,9 @@
 
 
                 <a href="{{ route('report.expense') }}"
-                    class="flex items-center px-3 py-2 rounded 
+                    class="flex items-center px-3 py-2 rounded
                     {{ request()->routeIs('report.expense') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
-              
+
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -104,11 +104,11 @@
                 </a>
 
                 <a href="{{ route('contactus') }}"
-                    class="flex items-center px-3 py-2 rounded 
+                    class="flex items-center px-3 py-2 rounded
                     {{ request()->routeIs('contactus') ? 'bg-green-600 text-white' : 'text-gray-700 hover:bg-green-400 hover:text-white' }}">
-              
-                
-            
+
+
+
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -123,7 +123,16 @@
     <div class="px-6 py-4 border-t border-gray-200 bg-green-200">
         <div class="flex items-center space-x-3">
             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                @if (Auth::user()->profile_photo_path)
+                    <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                @else
+                    <span class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-green-400 text-white">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1112 21a9 9 0 01-6.879-3.196z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </span>
+                @endif
             @endif
             <div>
                 <div class="font-medium text-gray-800">{{ Auth::user()->name }}</div>
