@@ -30,6 +30,8 @@ class Chatbot extends Component
 
     public function sendMessage()
     {
+
+        dd($this->messages);
         if (empty($this->input)) return;
 
         $userMessage = strtolower($this->input);
@@ -41,6 +43,7 @@ class Chatbot extends Component
 
         // Fetch recent expenses
         $expenses = Expenses::where('date', '>=', Carbon::now()->subDays(30))
+            ->where('user_id', auth()->id())
             ->get(['description', 'amount', 'date'])
             ->toArray();
 
@@ -50,7 +53,7 @@ class Chatbot extends Component
             ->toArray();
 
         // Fetch recurring expenses
-        $recurring = RecurringExpenses::get(['description', 'amount', 'frequency', 'next_payment_date'])
+        $recurring = RecurringExpenses::where('user_id', auth()->id())->get(['description', 'amount', 'frequency', 'next_payment_date'])
             ->toArray();
 
         // Check for "contact us" questions
@@ -73,6 +76,7 @@ class Chatbot extends Component
 
         // Fetch category expenses
         $expenseSummaryByCategory = DB::table('expenses')
+        ->where('expenses.user_id', auth()->id())
         ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
         ->where('expenses.date', '>=', Carbon::now()->subDays(30))
         ->select('expense_categories.name as category', DB::raw('SUM(expenses.amount) as total'))
@@ -83,6 +87,7 @@ class Chatbot extends Component
 
         // Generate weekly report
         $weeklySpending = DB::table('expenses')
+        ->where('user_id', auth()->id())
         ->select(
             DB::raw('YEARWEEK(date, 1) as week'),
             DB::raw('MIN(date) as start_date'),
@@ -97,6 +102,7 @@ class Chatbot extends Component
 
         // Generate monthly report
         $monthlySpending = DB::table('expenses')
+        ->where('user_id', auth()->id())
         ->select(
             DB::raw('DATE_FORMAT(date, "%Y-%m") as month'),
             DB::raw('MIN(date) as start_date'),
@@ -149,7 +155,7 @@ class Chatbot extends Component
                 'Authorization' => 'Bearer ' . env('GROQ_API_KEY'),
                 'Content-Type'  => 'application/json',
             ])->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama3-8b-8192',
+                'model' => 'llama-3.1-8b-instant',
                 'messages' => $messages,
                 'temperature' => 0.7
             ]);

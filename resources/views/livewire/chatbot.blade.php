@@ -27,7 +27,7 @@
                             @if($message['role'] === 'user') bg-blue-500 text-white
                             @else bg-gray-200
                             @endif">
-                            {{ $message['content'] }}
+                            {!! nl2br(preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', e($message['content']))) !!}
                         </div>
                     </div>
                 @endif

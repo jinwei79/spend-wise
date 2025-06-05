@@ -13,7 +13,7 @@ class GroqService
     {
         $response = Http::withToken(env('GROQ_API_KEY'))
             ->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama3-8b-8192',
+                'model' => 'llama-3.1-8b-instant',
                 'messages' => [
                     ['role' => 'user', 'content' => $content]
                 ],
