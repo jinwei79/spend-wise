@@ -14,11 +14,18 @@ class Index extends Component
     public $currentBudgets;
     public $otherBudgets;
     public $salary;
+    public $hasAllBudget;
+    public $allCategoryBudget;
 
     public function mount(): void
     {
         $user = Auth::user();
-        $this->budgets = Budget::with('category')->where('user_id', auth()->id())->orderByDesc('year')->orderByDesc('month')->get();
+        $this->hasAllBudget = false;
+        $allCategorySpent = 0;
+        $allBudget = 0;
+
+        $this->budgets = Budget::with('category')->where('user_id', auth()->id())->orderByDesc('year')
+            ->orderByDesc('month')->orderBy('category_id')->get();
         $this->remainingBudget = Budget::currentBudget();
         $this->salary = $user->salary;
 
@@ -35,7 +42,7 @@ class Index extends Component
                     ->sum('amount');
 
                 $budget->spent = $spent;
-
+                $this->hasAllBudget = true;
             } else {
                 // Budget for a specific category
                 $spent = Expense::where('user_id', auth()->id())
@@ -45,7 +52,19 @@ class Index extends Component
                     ->sum('amount');
 
                 $budget->spent = $spent;
+                $allCategorySpent += $spent;
+                $allBudget += $budget->amount;
             }
+        }
+        if (!$this->hasAllBudget) {
+            $this->allCategoryBudget = new Budget([
+                'user_id' => auth()->id(),
+                'category_id' => 0,
+                'month' => now()->month,
+                'year' => now()->year,
+                'amount' => $allBudget,
+                'spent' => $allCategorySpent
+            ]);
         }
     }
 

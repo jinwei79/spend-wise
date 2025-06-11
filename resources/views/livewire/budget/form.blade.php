@@ -52,7 +52,7 @@
                     </button>
                 @endif
                 <button type="submit"
-                        class="btn-primary btn-edit text-white px-4 py-2 rounded ">{{ $budgetId ? 'Update' : 'Create' }}</button>
+                        class="bg-green-600 text-white py-2 px-4 hover:bg-green-700 focus:outline-none rounded ">{{ $budgetId ? 'Update' : 'Create' }}</button>
             </div>
         </form>
     </div>

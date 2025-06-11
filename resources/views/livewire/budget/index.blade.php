@@ -40,12 +40,34 @@
                 <p class="text-lg font-semibold text-gray-600 dark:text-gray-300">You have not set any budget yet.</p>
             </div>
         @endif
+        @if(!$hasAllBudget)
+                <div class="p-4 shadow border-l-8 budget-card" style="border-color: #ffffff">
+                    <div style="flex: 1">
+                        <h3 class="text-md font-semibold">
+                            All Categories
+                        </h3>
+                        <p class="text-sm text-gray-500">
+                            {{ DateTime::createFromFormat('!m', $allCategoryBudget->month)->format('F') }} {{ $allCategoryBudget->year }}
+                        </p>
+                    </div>
+                    <div style="flex: 1" class="text-right">
+                    <span class="text-lg font-bold text-gray-800">
+                        RM {{ number_format($allCategoryBudget->amount, 2) }}
+                    </span>
+                    </div>
+                    <div style="flex: 0 0 100%;border-top: 1px dashed black;" class="mt-2 pt-1">
+                        <small>Spent: RM {{ number_format($allCategoryBudget->spent, 2) }}</small>
+                        <br/>
+                        <small>Available: RM {{ number_format(($allCategoryBudget->amount - $allCategoryBudget->spent), 2) }}</small>
+                    </div>
+                </div>
+        @endif
         @foreach ($currentBudgets  as $currentBudget)
             <a href="{{ route('budget.edit', $currentBudget->id) }}" class="p-4 shadow border-l-8 budget-card"
                style="border-color: {{ $currentBudget->category->color_code ?? '#ffffff' }}">
                 <div style="flex: 1">
                     <h3 class="text-md font-semibold">
-                        {{ $currentBudget->category->name ?? 'All' }}
+                        {{ $currentBudget->category->name ?? 'All Categories' }}
                     </h3>
                     <p class="text-sm text-gray-500">
                         {{ DateTime::createFromFormat('!m', $currentBudget->month)->format('F') }} {{ $currentBudget->year }}
@@ -80,7 +102,7 @@
                style="border-color: {{ $budget->category->color_code ?? '#ffffff' }}">
                 <div>
                     <h3 class="text-md font-semibold">
-                        {{ $budget->category->name ?? 'All' }}
+                        {{ $budget->category->name ?? 'All Categories' }}
                     </h3>
                     <p class="text-sm text-gray-500">
                         {{ DateTime::createFromFormat('!m', $budget->month)->format('F') }} {{ $budget->year }}
