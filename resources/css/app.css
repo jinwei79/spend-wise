@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import 'tailwindcss';
 @tailwind utilities;
 
@@ -9,4 +10,210 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+=======
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+[x-cloak] {
+  display: none;
+}
+
+body {
+    background: linear-gradient(
+      135deg,
+      rgba(224, 231, 255, 0.8) 0%,
+      rgba(237, 233, 254, 0.8) 50%,
+      rgba(252, 231, 243, 0.8) 100%
+    );
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    backdrop-filter: blur(20px);
+  }
+.bg-primary {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    min-height: 100vh;
+    /* padding: 2rem; */
+    background-color: #f9fafb; /* fallback bg */
+  }
+
+  .bg-primary::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(85, 208, 64, 0.15);
+    z-index: -2;
+  }
+
+  .bg-primary::after {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 150%;
+    background: #F9E1C3;
+    transform: rotate(25deg);
+    transform-origin: left top;
+    right: 70px;
+    top: -50px;
+    filter: drop-shadow(2px 4px 24px rgba(0, 0, 0, 0.08)) blur(50px);
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    background-color: #3EB798;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-primary:hover {
+    background-color: #359f83;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Alert styles */
+  .alert-success {
+    padding: 10px;
+    background-color: #71bb76;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    color: #ffffff;
+  }
+
+  .alert-error {
+    padding: 10px;
+    background-color: #e57373;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  .alert-warning {
+    padding: 10px;
+    background-color: #ffb74d;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  .alert-info {
+    padding: 10px;
+    background-color: #64b5f6;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    color: #fff;
+  }
+
+  /* Category card styling */
+  .category-card {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  /* Text container */
+  .category-content h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937; /* Tailwind slate-800 */
+    margin-bottom: 0.25rem;
+  }
+
+  .category-content p {
+    font-size: 0.9rem;
+    color: #6b7280; /* Tailwind gray-500 */
+  }
+
+  /* Color circle */
+  .category-color-circle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+  }
+
+
+
+.budget-main-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    gap: 5%;
+    max-width: 700px;
+    margin: 20px auto 3rem auto;
+    padding: 16px;
+}
+
+.budget-main-card img {
+    width: 100px;
+    height: 100px;
+}
+
+.budget-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    gap: 5%;
+}
+
+.budget-info {
+    flex: 1;
+    margin-left: 1rem;
+}
+
+.budget-amount {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.budget-label {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.budget-balance {
+    margin-top: 0.3rem;
+    font-size: 0.85rem;
+    color: #999;
+}
+
+.budget-filter select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.9rem;
+>>>>>>> 7f4954b (Updated Chatbot)
 }

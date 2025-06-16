@@ -85,7 +85,10 @@ return [
                 'smtp',
                 'log',
             ],
+<<<<<<< HEAD
             'retry_after' => 60,
+=======
+>>>>>>> 7f4954b (Updated Chatbot)
         ],
 
         'roundrobin' => [
@@ -94,7 +97,10 @@ return [
                 'ses',
                 'postmark',
             ],
+<<<<<<< HEAD
             'retry_after' => 60,
+=======
+>>>>>>> 7f4954b (Updated Chatbot)
         ],
 
     ],
