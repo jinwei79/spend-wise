@@ -32,26 +32,12 @@ class Chatbot extends Component
     {
         if (empty($this->input)) return;
 
-        $userMessage = strtolower($this->input);
+        $userMessage = strtolower(trim($this->input));
 
         $this->messages[] = [
             'role' => 'user',
             'content' => $this->input
         ];
-
-        // Fetch recent expenses
-        $expenses = Expenses::where('date', '>=', Carbon::now()->subDays(30))
-            ->get(['description', 'amount', 'date'])
-            ->toArray();
-
-        // Fetch budget 
-        $budgets = Budget::where('user_id', auth()->id())
-            ->get(['amount', 'created_at'])
-            ->toArray();
-
-        // Fetch recurring expenses
-        $recurring = RecurringExpenses::get(['description', 'amount', 'frequency', 'next_payment_date'])
-            ->toArray();
 
         // Check for "contact us" questions
         if (
@@ -63,7 +49,7 @@ class Chatbot extends Component
         ) {
             $this->messages[] = [
                 'role' => 'assistant',
-                'content' => "You can contact us via email at **support@example.com** or call us at **+123-456-7890**. We're available Monday to Friday, 9am–5pm."
+                'content' => "You can contact us via email at <strong>support@example.com</strong> or call us at <strong>+123-456-7890</strong>. We're available Monday to Friday, 9am–5pm."
             ];
 
             session()->put('chat_messages', $this->messages);
@@ -71,66 +57,74 @@ class Chatbot extends Component
             return;
         }
 
-        // Fetch category expenses
+        // Otherwise → AI handles it
+        $userId = auth()->id();
+
+        $currentMonth = Carbon::now()->month;
+        $currentYear = Carbon::now()->year;
+        $currentMonthName = Carbon::now()->format('F Y');
+
+        $monthlyExpenses = Expenses::where('user_id', $userId)
+            ->whereMonth('date', Carbon::now()->month)
+            ->whereYear('date', Carbon::now()->year)
+            ->select('date', 'description', 'amount', 'expense_category_id')
+            ->orderBy('date', 'desc')
+            ->get()
+            ->toArray();
+
+        $budgets = Budget::where('user_id', $userId)->get()->toArray();
+
+        $recurring = RecurringExpenses::where('user_id', $userId)->get()->toArray();
+
         $expenseSummaryByCategory = DB::table('expenses')
-        ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
-        ->where('expenses.date', '>=', Carbon::now()->subDays(30))
-        ->select('expense_categories.name as category', DB::raw('SUM(expenses.amount) as total'))
-        ->groupBy('expense_categories.name')
-        ->orderByDesc('total')
-        ->get()
-        ->toArray();
+            ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
+            ->where('expenses.user_id', $userId)
+            ->whereMonth('expenses.date', Carbon::now()->month)
+            ->whereYear('expenses.date', Carbon::now()->year)
+            ->select('expense_categories.name as category', DB::raw('SUM(expenses.amount) as total'))
+            ->groupBy('expense_categories.name')
+            ->orderByDesc('total')
+            ->get()
+            ->toArray();
 
-        // Generate weekly report
-        $weeklySpending = DB::table('expenses')
-        ->select(
-            DB::raw('YEARWEEK(date, 1) as week'),
-            DB::raw('MIN(date) as start_date'),
-            DB::raw('MAX(date) as end_date'),
-            DB::raw('SUM(amount) as total_spent')
-        )
-        ->where('date', '>=', Carbon::now()->subWeeks(4)) // past 4 weeks
-        ->groupBy(DB::raw('YEARWEEK(date, 1)'))
-        ->orderBy(DB::raw('YEARWEEK(date, 1)'), 'desc')
-        ->get()
-        ->toArray();
+        $intent = '';
 
-        // Generate monthly report
-        $monthlySpending = DB::table('expenses')
-        ->select(
-            DB::raw('DATE_FORMAT(date, "%Y-%m") as month'),
-            DB::raw('MIN(date) as start_date'),
-            DB::raw('MAX(date) as end_date'),
-            DB::raw('SUM(amount) as total_spent')
-        )
-        ->where('date', '>=', Carbon::now()->subMonths(6)) // past 6 months
-        ->groupBy(DB::raw('DATE_FORMAT(date, "%Y-%m")'))
-        ->orderBy(DB::raw('DATE_FORMAT(date, "%Y-%m")'), 'desc')
-        ->get()
-        ->toArray();
+        if (
+            str_contains($userMessage, 'summary') ||
+            str_contains($userMessage, 'report')
+        ) {
+            $intent = 'summary';
+        }
 
-        $systemPrompt = "Here is the user's expense data: " . json_encode($expenses) .
-            ". Here is the user's budget data: " . json_encode($budgets) .
-            ". Here is the user's recurring expenses: " . json_encode($recurring) .
-            ". Here is the summary of expenses by category: " . json_encode($expenseSummaryByCategory) .
-            ". Here is the weekly spending report: " . json_encode($weeklySpending) .
-            ". Here is the user's monthly spending report: " . json_encode($monthlySpending) .
-            ". Based on this data, answer the following question: " . $this->input;
+        // Prepare prompt
+        $systemPrompt = "You are a helpful expense tracking assistant. Based on the data below, answer the user's question clearly and helpfully.\n";
+        $systemPrompt .= "Always avoid technical terms like database IDs or raw JSON fields in your response. Never mention things like 'category ID'.\n";
+        $systemPrompt .= "Use simple HTML formatting such as <strong>, <ul>, <li>, and <p> to keep responses clean. Do not include raw data dumps.\n";
+        $systemPrompt .= "If the user asks about budget, respond with a friendly sentence like: 'Your budget for June 2025 is RM3000.'\n";
+        $systemPrompt .= "If helpful, suggest improvements like splitting the budget by category, but keep it short and readable.\n";
+        $systemPrompt .= "Only use data from the current month ({$currentMonthName}). Do NOT include expenses from previous or future months.\n";
+        $systemPrompt .= "If the user's budget and current month's expenses are known, also calculate and show the remaining budget (budget minus current spending). Format it clearly in RM.\n";
+
+        $systemPrompt .= "User's full expenses in the last 30 days: " . json_encode($monthlyExpenses) . "\n";
+        $systemPrompt .= "User's budget data: " . json_encode($budgets) . "\n";
+        $systemPrompt .= "User's recurring expenses: " . json_encode($recurring) . "\n";
+        $systemPrompt .= "Expense summary by category: " . json_encode($expenseSummaryByCategory) . "\n";
+
+       if ($intent === 'summary') {
+            $systemPrompt .= "The user is asking for an expense summary or report. Respond with a well-structured HTML report that includes total amount spent, top categories, and optionally a weekly or monthly breakdown.\n";
+        } else {
+            $systemPrompt .= "Respond naturally. Use the appropriate data to answer the user's question. If unsure, give a general overview.\n";
+        }
+
+        $systemPrompt .= "User's question: " . $this->input;
 
         $this->messages[] = [
             'role' => 'system',
-            'content' => "Expense data: " . json_encode($expenses) .
-                " | Budget data: " . json_encode($budgets) .
-                " | Recurring expense data: " . json_encode($recurring) . 
-                " | Category summary: " . json_encode($expenseSummaryByCategory) . 
-                " | Weekly spending report: " . json_encode($weeklySpending) . 
-                " | Monthly spending report: " . json_encode($monthlySpending)
+            'content' => $systemPrompt
         ];
 
-        // Call Groq API
         $response = $this->callGroqApi($this->messages);
 
-        // Add assistant's reply
         if ($response) {
             $this->messages[] = [
                 'role' => 'assistant',
@@ -149,7 +143,7 @@ class Chatbot extends Component
                 'Authorization' => 'Bearer ' . env('GROQ_API_KEY'),
                 'Content-Type'  => 'application/json',
             ])->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama3-8b-8192',
+                'model' => 'llama-3.3-70b-versatile',
                 'messages' => $messages,
                 'temperature' => 0.7
             ]);
@@ -169,6 +163,8 @@ class Chatbot extends Component
 
     public function render()
     {
-        return view('livewire.chatbot');
+        return view('livewire.chatbot')->layout('layouts.app');
     }
 }
+
+#GROQ_API_KEY=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
