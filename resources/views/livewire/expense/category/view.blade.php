@@ -23,7 +23,7 @@
                         <button wire:click="confirmDelete({{ $category->id }})"
                                 class="bg-red-600 text-white px-4 py-2 rounded">Delete
                         </button>
-                        <a class=" btn-edit" href="{{ route('category.edit', $category->id) }}">Edit</a>
+                        <a class="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 button" href="{{ route('category.edit', $category->id) }}">Edit</a>
                     </div>
                 @endif
             </div>

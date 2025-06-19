@@ -12,7 +12,7 @@
                     {{ session('error') }}
                 </div>
             @endif
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-3xl font-bold text-gray-900">My Expense Calendar</h2>
                     <p class="text-gray-500 mt-1">View your expenses based on date</p>
@@ -21,6 +21,29 @@
                     {{ __('Add Expense') }} <i class="fa fa-plus"></i>
                 </a>
             </div>
+
+                <div class="mb-4">
+                    @if(!empty($remainingBudgets))
+                        <p class="text-black mt-4 mb-2 font-bold" style="font-size: 20px;">Remaining budget this month:</p>
+                    @endif
+                    <div class="gap-4 grid grid-cols-1 grid-cols-6">
+                        @foreach ($remainingBudgets as $budget)
+                            <div class="flex items-center justify-between" style="border-bottom: 1px solid #16a34a; font-size: 18px">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-3 h-3 rounded-full" style="background-color: {{ $budget['color_code'] }}"></div>
+                                    <div>
+                                        <div class="font-medium text-black truncate" style="width: 65px" title="{{ $budget['category'] }}">{{ $budget['category'] }}</div>
+                                    </div>
+                                </div>
+
+                                <div class="text-right {{ number_format($budget['remaining'], 2) < 0 ? 'text-red-500' : 'text-black' }}">
+                                    RM {{ number_format($budget['remaining'], 2)  }}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
             <div class="bg-white dark:bg-gray-800 shadow rounded-lg p-4 my-2">
                 <div class="flex items-center space-x-4">
                     <label for="year" class="text-gray-700 dark:text-gray-300">{{ __('Year') }}</label>

@@ -2,11 +2,11 @@
 
     <div class="mt-8 mb-8 ml-5">
         @if(!empty($remainingBudgets))
-            <p class="text-black mt-4 mb-2">Remaining budget this month:</p>
+            <p class="text-black mt-4 mb-2 font-bold" style="font-size: 20px;">Remaining budget this month:</p>
         @endif
         <div class="gap-4 grid grid-cols-1 grid-cols-6">
             @foreach ($remainingBudgets as $budget)
-                <div class="flex items-center justify-between" style="border-bottom: 1px solid #16a34a">
+                <div class="flex items-center justify-between" style="border-bottom: 1px solid #16a34a; font-size: 18px">
                     <div class="flex items-center gap-3">
                         <div class="w-3 h-3 rounded-full" style="background-color: {{ $budget['color_code'] }}"></div>
                         <div>
