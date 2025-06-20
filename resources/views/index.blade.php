@@ -123,7 +123,7 @@
   <!-- Flex container for Login and Register buttons -->
   <div class="flex gap-4">
     <a href="{{ route('login') }}" class="btn-primary">Login</a>
-    <a href="{{ route('register') }}" class="btn-primary">Register</a>
+   <!-- <a href="{{ route('register') }}" class="btn-primary">Register</a>---->
   </div>
   
   <div class="flex gap-4">
