@@ -71,11 +71,8 @@ class Chatbot extends Component
             ->orderBy('date', 'desc')
             ->get()
             ->toArray();
-
         $budgets = Budget::where('user_id', $userId)->get()->toArray();
-
         $recurring = RecurringExpenses::where('user_id', $userId)->get()->toArray();
-
         $expenseSummaryByCategory = DB::table('expenses')
             ->join('expense_categories', 'expenses.expense_category_id', '=', 'expense_categories.id')
             ->where('expenses.user_id', $userId)
