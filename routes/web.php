@@ -1,12 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
-=======
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Livewire\Expense\Create;
 use App\Livewire\Expense\Edit;
@@ -165,4 +158,3 @@ Route::get('/test-groq', function () {
     return response()->json($response);
 })->name('test-groq');
 
->>>>>>> 7f4954b (Updated Chatbot)
