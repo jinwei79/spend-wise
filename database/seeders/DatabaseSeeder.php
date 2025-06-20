@@ -5,10 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Facades\DB;
->>>>>>> 7f4954b (Updated Chatbot)
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,14 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-<<<<<<< HEAD
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
-=======
         // User::factory(10)->withPersonalTeam()->create();
 
         DB::Statement('SET FOREIGN_KEY_CHECKS=0;');
@@ -42,6 +31,5 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(ExpenseCategorySeeder::class);
->>>>>>> 7f4954b (Updated Chatbot)
     }
 }
