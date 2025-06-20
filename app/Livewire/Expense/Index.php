@@ -17,7 +17,7 @@ class Index extends Component
 
     public $selectedMonth;
     public $selectedYear;
-    public $remainingBudgets;
+    public $remainingBudgets = [];
 
 
     public function mount()
