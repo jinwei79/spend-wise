@@ -6,20 +6,37 @@ use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class GroqService
 {
     public function chatWithGroq($content)
     {
-        $response = Http::withToken(env('GROQ_API_KEY'))
-            ->post('https://api.groq.com/openai/v1/chat/completions', [
-                'model' => 'llama-3.1-8b-instant',
-                'messages' => [
-                    ['role' => 'user', 'content' => $content]
-                ],
-            ]);
+        try {
+            $response = Http::withToken(config('services.groq.key'))
+                ->post('https://api.groq.com/openai/v1/chat/completions', [
+                    'model' => 'llama-3.1-8b-instant',
+                    'messages' => [
+                        ['role' => 'user', 'content' => $content]
+                    ],
+                ]);
 
-        return $response->json()['choices'][0]['message']['content'];
+            // Log full response
+            Log::info('Groq API Response:', $response->json());
+
+            $data = $response->json();
+
+            if (!isset($data['choices'][0]['message']['content'])) {
+                Log::warning('Groq API returned unexpected format:', $data);
+                return 'No response from model.';
+            }
+
+            return $data['choices'][0]['message']['content'];
+
+        } catch (\Exception $e) {
+            Log::error('Groq API call failed: ' . $e->getMessage());
+            return 'Error communicating with Groq API.';
+        }
     }
 
     public function getExpenseCategory($description)
@@ -32,7 +49,7 @@ class GroqService
         );
         $reversedResponse = strrev($response); // Reverse the string
         preg_match('/\d+/', $reversedResponse, $matches); // Extract the first number
-        $categoryId = isset($matches[0]) ? (int) strrev($matches[0]) : 0; // Reverse it back to get the original number
+        $categoryId = isset($matches[0]) ? (int)strrev($matches[0]) : 0; // Reverse it back to get the original number
         return $categoryId;
     }
 }

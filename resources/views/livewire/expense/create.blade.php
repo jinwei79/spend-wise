@@ -3,7 +3,6 @@
     <div class="mt-8 mb-8 ml-5">
         @if(!empty($remainingBudgets))
             <p class="text-black mt-4 mb-2 font-bold" style="font-size: 20px;">Remaining budget this month:</p>
-        @endif
         <div class="gap-4 grid grid-cols-1 grid-cols-6">
             @foreach ($remainingBudgets as $budget)
                 <div class="flex items-center justify-between" style="border-bottom: 1px solid #16a34a; font-size: 18px">
@@ -20,6 +19,7 @@
                 </div>
             @endforeach
         </div>
+        @endif
     </div>
 
     <form wire:submit.prevent="save">
