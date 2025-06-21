@@ -23,19 +23,11 @@
             @foreach($messages as $message)
                 @if($message['role'] !== 'system')
                     <div class="@if($message['role'] === 'user') text-right @endif">
-<<<<<<< HEAD
-                        <div class="inline-block px-4 py-2 rounded-lg 
-                            @if($message['role'] === 'user') bg-blue-500 text-white 
-                            @else bg-gray-200 
-                            @endif">
-                            {{ $message['content'] }}
-=======
                         <div class="inline-block px-4 py-2 rounded-lg
                             @if($message['role'] === 'user') bg-blue-500 text-white
                             @else bg-gray-200
                             @endif">
                             {!! $message['content'] !!}
->>>>>>> 7f4954b (Updated Chatbot)
                         </div>
                     </div>
                 @endif
