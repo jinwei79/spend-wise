@@ -115,65 +115,23 @@
     </div>
 </div>
 
-    <script>
-    var pieChartInstance = null;
-    var chartData = @json($chartData);
+<script>
+    let pieChartInstance = null;
 
-    function renderChart() {
-        const ctx = document.getElementById('pieChart').getContext('2d');
-        const chartData = @json($chartData);
+    window.addEventListener('chartUpdated', (event) => {
+    const chartData = event.detail.chartData; 
 
-        // Destroy previous chart if it exists
-        if (pieChartInstance) {
-            pieChartInstance.destroy();
+    console.log('✅ Event received. Chart data:', chartData);
+
+    if (chartData && chartData.labels && chartData.labels.length > 0) {
+        if (pieChartInstance) pieChartInstance.destroy();
+
+        const ctx = document.getElementById('pieChart')?.getContext('2d');
+        if (!ctx) {
+            console.warn('⚠️ Cannot find pieChart canvas');
+            return;
         }
 
-        pieChartInstance = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: chartData.labels,
-                datasets: [{
-                    data: chartData.data,
-                    backgroundColor: chartData.colors,
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                const label = context.label || '';
-                                const value = context.formattedValue || '';
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = Math.round((context.raw / total) * 100);
-                                return `${label}: RM${value} (${percentage}%)`;
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    // Initial render
-    document.addEventListener('DOMContentLoaded', function() {
-        renderChart();
-    });
-
-    // Handle Livewire updates
-    Livewire.on('chartUpdated', (chartData) => {
-    if (chartData.labels && chartData.labels.length > 0) {
-        if (pieChartInstance) {
-            pieChartInstance.destroy();
-        }
-
-        const ctx = document.getElementById('pieChart').getContext('2d');
         pieChartInstance = new Chart(ctx, {
             type: 'pie',
             data: {
@@ -191,7 +149,7 @@
                     legend: { position: 'right' },
                     tooltip: {
                         callbacks: {
-                            label: function(context) {
+                            label: function (context) {
                                 const label = context.label || '';
                                 const value = context.formattedValue || '';
                                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
@@ -203,10 +161,17 @@
                 }
             }
         });
+
+        console.log('Pie chart generated/updated with data:', chartData);
     } else {
-        console.warn('No chart data received');
+        console.warn('No chart data received or empty dataset');
     }
 });
-console.log(chartData);
+
+</script>
+
+
+
+
 </script>
 </div>

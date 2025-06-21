@@ -19,15 +19,26 @@ class ExpenseReport extends Component
     {
         $this->loadExpenses();
         $this->prepareChartData();
+        $this->dispatch('chartUpdated', chartData: $this->chartData);
     }
+    
+    public function setTimeframe($key)
+{
+    $this->timeframe = $key;
+    $this->updatedTimeframe();
+    
+}
 
-    public function updatedTimeframe()
-    {
-        \Log::info('Updated Timeframe: ' . $this->timeframe); 
+public function updatedTimeframe()
+{
     $this->loadExpenses();
     $this->prepareChartData();
-    $this->dispatch('chartUpdated', $this->chartData);
-    }
+
+    
+    $this->dispatch('chartUpdated', chartData: $this->chartData);
+}
+
+
     
     private function loadExpenses()
     {
