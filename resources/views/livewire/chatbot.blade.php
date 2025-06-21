@@ -27,7 +27,8 @@
                             @if($message['role'] === 'user') bg-blue-500 text-white
                             @else bg-gray-200
                             @endif">
-                            {!! nl2br(preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', e($message['content']))) !!}
+
+                            {!! nl2br(preg_replace('/\*\*(.*?)\*\*/s', '<strong>$1</strong>', $message['content'])) !!}
                         </div>
                     </div>
                 @endif
@@ -43,7 +44,7 @@
 
         <form wire:submit.prevent="sendMessage" class="flex p-2 border-t">
             <input wire:model.defer="input" type="text" placeholder="Ask something..."
-                class="flex-grow px-4 py-2 border rounded-l-full focus:outline-none focus:ring" autocomplete="off">
+                   class="flex-grow px-4 py-2 border rounded-l-full focus:outline-none focus:ring" autocomplete="off">
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-r-full">
                 ▶
             </button>

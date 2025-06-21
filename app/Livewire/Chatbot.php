@@ -144,7 +144,7 @@ class Chatbot extends Component
     {
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . env('GROQ_API_KEY'),
+                'Authorization' => 'Bearer ' . config('services.groq.key'),
                 'Content-Type'  => 'application/json',
             ])->post('https://api.groq.com/openai/v1/chat/completions', [
                 'model' => 'meta-llama/llama-4-scout-17b-16e-instruct',
