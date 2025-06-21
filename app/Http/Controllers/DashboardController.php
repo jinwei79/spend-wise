@@ -72,6 +72,7 @@ class DashboardController extends Controller
             'data' => $userCategorySummary->pluck('total'),
         ];
 
+        // dd(Auth::user()->profile_photo_url);
         return view('dashboard', [
             'totalExpenses' => $totalExpenses,
             'monthlyRecurring' => $monthlyRecurring,

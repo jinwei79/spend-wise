@@ -15,7 +15,7 @@ class Create extends Component
 
     protected $groqService;
     public $categories;
-    public $remainingBudgets;
+    public $remainingBudgets = [];
 
     public $expenses = [
         [

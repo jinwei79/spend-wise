@@ -57,7 +57,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $appends = [
-        'profile_photo_path',
+        'profile_photo_url',
     ];
 
     /**
@@ -72,5 +72,12 @@ class User extends Authenticatable
             'password' => 'hashed',
             'budget_notice_dismissed_at' => 'datetime',
         ];
+    }
+
+    public function getProfilePhotoUrlAttribute(): string
+    {
+        return $this->profile_photo_path
+            ? asset('storage/' . $this->profile_photo_path)
+            : asset('images/default-profile-photo.png');
     }
 }

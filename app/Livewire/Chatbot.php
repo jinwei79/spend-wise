@@ -10,6 +10,7 @@ use App\Models\Expense;
 use App\Models\Budget;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class Chatbot extends Component
 {
@@ -154,7 +155,11 @@ class Chatbot extends Component
             return $response->json()['choices'][0]['message']['content'] ?? null;
 
         } catch (\Exception $e) {
-            return "Sorry, I couldn't reach the AI.";
+            // Log the error for debugging
+            Log::error('Groq API error: ' . $e->getMessage());
+
+            // Return a user-friendly error message
+            return "Sorry, I couldn't process your request at the moment. Please try again later.";
         }
     }
 
