@@ -51,7 +51,7 @@ Route::get('/contactus', function () {
 
 Route::get('/', function () {
     if (auth()->check()) {
-        return redirect()->route('mainpage'); // or home page
+        return redirect()->route('dashboard');
     }
     return view('index'); // Blade or even static if embedded
 });

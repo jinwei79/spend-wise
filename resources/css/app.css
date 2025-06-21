@@ -150,6 +150,7 @@ body {
 
 .budget-main-card {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     background: white;
@@ -207,4 +208,14 @@ body {
 
 .button {
     -webkit-appearance: button;
+}
+
+@media (max-width: 767px) {
+    .budget-main-card {
+        flex-direction: column;
+    }
+
+    .btn-primary {
+        padding: 0.5rem 1rem;
+    }
 }

@@ -24,12 +24,23 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>  <!-- Keep only one -->
         @stack('styles')
+
+        <style>[x-cloak] { display: none !important; }</style>
     </head>
     <body class="font-sans antialiased">
         <x-banner />
 
         <div class="min-h-screen bg-primary dark:bg-gray-900">
-            @livewire('navigation-menu')
+            <div x-data="{ sidebarOpen: false }" class="flex h-screen">
+
+                <!-- Mobile toggle button -->
+                <div class="md:hidden fixed top-4 left-4 z-50">
+                    <button @click="sidebarOpen = !sidebarOpen" class="p-2 bg-green-500 text-white rounded-md">
+                        ☰
+                    </button>
+                </div>
+
+                @livewire('navigation-menu')
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -41,7 +52,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="ml-64 flex-1 h-screen overflow-y-auto">
+            <main class="flex-1 ml-0 p-4 overflow-y-auto">
                 @auth
                     @livewire('budget.budget-alert')
                 @endauth
@@ -56,6 +67,15 @@
                     </div>
                 @endif
             </main>
+
+                <!-- Overlay for mobile -->
+                <div
+                    x-show="sidebarOpen"
+                    @click="sidebarOpen = false"
+                    x-cloak
+                    class="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden"
+                ></div>
+            </div>
         </div>
 
         @stack('modals')

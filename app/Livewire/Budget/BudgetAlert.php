@@ -21,6 +21,7 @@ class BudgetAlert extends Component
         foreach ($budgets as $budget) {
             if ($budget->category_id != 0) {
                 $spent = Expense::where('expense_category_id', $budget->category_id)
+                    ->where('user_id', auth()->id())
                     ->whereMonth('date', $budget->month)
                     ->whereYear('date', $budget->year)
                     ->sum('amount');
@@ -35,6 +36,7 @@ class BudgetAlert extends Component
         foreach ($budgets as $budget) {
             if ($budget->category_id == 0) {
                 $totalSpent = Expense::whereMonth('date', $budget->month)
+                    ->where('user_id', auth()->id())
                     ->whereYear('date', $budget->year)
                     ->sum('amount');
 

@@ -35,32 +35,32 @@
     <br/>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        @if($budgets->isEmpty())
-            <div class="w-1/2 mx-auto mt-5 text-center">
+        @if($currentBudgets->isEmpty())
+            <div class="mx-auto mt-5 text-center">
                 <p class="text-lg font-semibold text-gray-600 dark:text-gray-300">You have not set any budget yet.</p>
             </div>
-        @endif
+        @else
         @if(!$hasAllBudget)
-                <div class="p-4 shadow border-l-8 budget-card" style="border-color: #ffffff">
-                    <div style="flex: 1">
-                        <h3 class="text-md font-semibold">
-                            All Categories
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            {{ DateTime::createFromFormat('!m', $allCategoryBudget->month)->format('F') }} {{ $allCategoryBudget->year }}
-                        </p>
-                    </div>
-                    <div style="flex: 1" class="text-right">
+            <div class="p-4 shadow border-l-8 budget-card" style="border-color: #ffffff">
+                <div style="flex: 1">
+                    <h3 class="text-md font-semibold">
+                        All Categories
+                    </h3>
+                    <p class="text-sm text-gray-500">
+                        {{ DateTime::createFromFormat('!m', $allCategoryBudget->month)->format('F') }} {{ $allCategoryBudget->year }}
+                    </p>
+                </div>
+                <div style="flex: 1" class="text-right">
                     <span class="text-lg font-bold text-gray-800">
                         RM {{ number_format($allCategoryBudget->amount, 2) }}
                     </span>
-                    </div>
-                    <div style="flex: 0 0 100%;border-top: 1px dashed black;" class="mt-2 pt-1">
-                        <small>Spent: RM {{ number_format($allCategoryBudget->spent, 2) }}</small>
-                        <br/>
-                        <small>Available: RM {{ number_format(($allCategoryBudget->amount - $allCategoryBudget->spent), 2) }}</small>
-                    </div>
                 </div>
+                <div style="flex: 0 0 100%;border-top: 1px dashed black;" class="mt-2 pt-1">
+                    <small>Spent: RM {{ number_format($allCategoryBudget->spent, 2) }}</small>
+                    <br/>
+                    <small>Available: RM {{ number_format(($allCategoryBudget->amount - $allCategoryBudget->spent), 2) }}</small>
+                </div>
+            </div>
         @endif
         @foreach ($currentBudgets  as $currentBudget)
             <a href="{{ route('budget.edit', $currentBudget->id) }}" class="p-4 shadow border-l-8 budget-card"
@@ -85,6 +85,7 @@
                 </div>
             </a>
         @endforeach
+        @endif
     </div>
 
     <br/>
@@ -92,28 +93,30 @@
     <br/>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        @if($budgets->isEmpty())
-            <div class="w-1/2 mx-auto mt-5 text-center">
+        @if($otherBudgets->isEmpty())
+            <div class="mx-auto mt-5 text-center">
                 <p class="text-lg font-semibold text-gray-600 dark:text-gray-300">You have not set any budget yet.</p>
             </div>
-        @endif
-        @foreach ($otherBudgets  as $budget)
-            <a href="{{ route('budget.edit', $budget->id) }}" class="p-4 shadow border-l-8 budget-card"
-               style="border-color: {{ $budget->category->color_code ?? '#ffffff' }}">
-                <div>
-                    <h3 class="text-md font-semibold">
-                        {{ $budget->category->name ?? 'All Categories' }}
-                    </h3>
-                    <p class="text-sm text-gray-500">
-                        {{ DateTime::createFromFormat('!m', $budget->month)->format('F') }} {{ $budget->year }}
-                    </p>
-                </div>
-                <div class="text-right">
+        @else
+            @foreach ($otherBudgets  as $budget)
+                <a href="{{ route('budget.edit', $budget->id) }}" class="p-4 shadow border-l-8 budget-card"
+                   style="border-color: {{ $budget->category->color_code ?? '#ffffff' }}">
+                    <div>
+                        <h3 class="text-md font-semibold">
+                            {{ $budget->category->name ?? 'All Categories' }}
+                        </h3>
+                        <p class="text-sm text-gray-500">
+                            {{ DateTime::createFromFormat('!m', $budget->month)->format('F') }} {{ $budget->year }}
+                        </p>
+                    </div>
+                    <div class="text-right">
                     <span class="text-lg font-bold text-gray-800">
                         RM {{ number_format($budget->amount, 2) }}
                     </span>
-                </div>
-            </a>
-        @endforeach
+                    </div>
+                </a>
+            @endforeach
+        @endif
+
     </div>
 </div>

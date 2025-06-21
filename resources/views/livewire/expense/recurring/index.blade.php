@@ -13,8 +13,8 @@
     </div>
     <div class="flex items-center justify-between mb-4">
         <div>
-            <h2 class="text-3xl font-bold text-gray-900">My Expense Calendar</h2>
-            <p class="text-gray-500 mt-1">View your expenses based on date</p>
+            <h2 class="text-3xl font-bold text-gray-900">My Recurring Expenses</h2>
+            <p class="text-gray-500 mt-1">View your recurring expenses</p>
         </div>
         <a href="{{ route('recurring-expense.create') }}" class="btn-primary text-white px-4 py-2 rounded">
             {{ __('Add Recurring Expense') }} <i class="fa fa-plus"></i>
