@@ -36,9 +36,7 @@ class Profile extends Component
     {
         $user = Auth::user();
         return $user->profile_photo_path
-            ? (str_starts_with($user->profile_photo_path, 'http')
-                ? $user->profile_photo_path
-                : asset('storage/' . $user->profile_photo_path))
+            ? secure_asset('storage/' . $user->profile_photo_path)
             : $user->profile_photo_url;
     }
 
