@@ -80,7 +80,7 @@
             </div>
         </div>
         <div class="flex w-1/2 mx-auto justify-end mt-3">
-            <button type="button" class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mr-2" wire:click="resetForm">Cancel</button>
+            <a href="{{ route('recurring-expense.index') }}" class="bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 mr-2">Cancel</a>
             <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" onclick="return confirm('Are you sure you want to save this recurring expense?')">Save</button>
         </div>
     </form>
