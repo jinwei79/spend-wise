@@ -39,6 +39,7 @@ class Budget extends Model
         $currentYear = Carbon::now()->year;
 
         $currentMonthBudgets = Budget::with('category')
+            ->where('user_id', Auth::id())
             ->where('month', $currentMonth)
             ->where('year', $currentYear)
             ->get();
